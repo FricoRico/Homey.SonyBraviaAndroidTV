@@ -1,0 +1,83 @@
+<main class="hy-tmpl-preshared-key">
+  <div class="hy-tmpl-preshared-key-image"></div>
+  <form class="hy-tmpl-preshared-key-form">
+    <div class="hy-tmpl-preshared-key-row">
+      <label class="hy-label" for="preshared_key">Pre-shared key:</p>
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <input class="hy-input-text" type="password" id="preshared_key" name="psk" placeholder="Pre-shared key" required />
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit">Ok</button>
+    </div>
+  </form>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvPresharedKey {
+    constructor() {
+      Homey.getViewStoreValue('add_devices', 'devices', (err, device) => {
+        this.device = device.shift();
+
+        Homey.setTitle(`Setup PSK for ${this.device.name}`);
+      })
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', e => this.onSubmit(e, this.device));
+    }
+
+    onSubmit(e, device) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const presharedKey = document.getElementById('preshared_key');
+
+      device.settings.psk = formData.get('psk');
+
+      Homey.showLoadingOverlay();
+      Homey.emit('preshared_key', device, (err, device) => {
+        if (err) {
+          Homey.hideLoadingOverlay();
+          return Homey.alert('Pre-shared key is invalid, check television settings.');
+        }
+
+        Homey.createDevice(device, () => {
+          Homey.done();
+        });
+      });
+    }
+  }
+
+  const sonyBraviaAndroidTvPresharedKey = new SonyBraviaAndroidTvPresharedKey();
+</script>
+
+<style>
+  .hy-tmpl-preshared-key {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-preshared-key-image {
+    display: block;
+    position: relative;
+    width: 25vw;
+    height: 25vw;
+    margin: 20vw auto;
+    background-image: url('assets/images/locked-icon.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hy-tmpl-preshared-key-form {
+    position: relative;
+    width: 100%;
+  }
+
+  .hy-tmpl-preshared-key-row {
+    margin-bottom: 1em;
+  }
+
+</style>

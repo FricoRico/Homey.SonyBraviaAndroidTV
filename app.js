@@ -2,12 +2,12 @@
 
 const Homey = require('homey');
 
-class MyApp extends Homey.App {
-	
+class SonyBraviaAndroidTvApp extends Homey.App {
+
 	onInit() {
-		this.log('MyApp is running...');
+		this.log('SonyBraviaAndroidTvApp is running...');
 	}
-	
+
 }
 
-module.exports = MyApp;
+module.exports = SonyBraviaAndroidTvApp;
