@@ -75,7 +75,6 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
         name: '',
         area: '',
         cid: '',
-        macAddress: '',
         valid: false,
       },
       state: {
@@ -85,6 +84,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
         ip: ipAddress,
         psk: '',
         polling: 5,
+        macAddress: '',
       },
       capabilities: [
         'onoff',
@@ -166,6 +166,8 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
           name: parsedResponse.name,
           area: parsedResponse.area,
           cid: parsedResponse.cid,
+        },
+        settings: {
           macAddress: parsedResponse.macAddr
         }
       });

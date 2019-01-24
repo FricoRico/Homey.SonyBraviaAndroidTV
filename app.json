@@ -110,8 +110,8 @@
               "id": "polling",
               "type": "number",
               "label": {
-                "en": "Device polling minutes",
-                "nl": "Apparaat pollen minuten"
+                "en": "Device polling in minutes",
+                "nl": "Apparaat pollen in minuten"
               },
               "value": 5,
               "min": 0,
@@ -130,8 +130,8 @@
               "id": "useWOL",
               "type": "checkbox",
               "label": {
-                "en": "Use WOL for PowerOn",
-                "nl": "Gebruik WOL voor TV aan"
+                "en": "Enable Wake-on-LAN",
+                "nl": "Gebruik Wake-on-LAN"
               },
               "value": true
             }

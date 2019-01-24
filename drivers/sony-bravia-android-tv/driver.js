@@ -173,7 +173,7 @@ const sonyBraviaAndroidTvFinder = require('../../helpers/sony-bravia-android-tv-
 
 class SonyBraviaAndroidTvDriver extends Homey.Driver {
   onPair(socket) {
-    socket.on('list_devices', (_, callback) => this.fetchAvailableDevices(callback));
+    socket.on('list_devices', (_devices, callback) => this.fetchAvailableDevices(callback));
     socket.on('preshared_key', (device, callback) => this.fetchExpandedDeviceDetails(device, callback));
   }
 

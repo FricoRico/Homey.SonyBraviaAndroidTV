@@ -1,77 +1,116 @@
 const Homey = require('homey');
 
+const sonyBraviaAndroidTvCommunicator = require('../../helpers/sony-bravia-android-tv-communicator');
+
 class SonyBraviaAndroidTvDevice extends Homey.Device {
-  async onInit() {
-    this.log(`${this.getName()} initialized`);
+  onInit() {
+    this.device = this.generateDeviceObject();
 
-    this.awaitTask(await this.getTask());
-  }
-
-  onAdded() {
-    this.registerTasks()
-  }
-
-  onDeleted() {
-    this.unregisterTasks();
-  }
-
-  onSettings(_, _, changedKeys) {
-    if (changedKeys.indexOf('polling') === -1) {
-      return;
-    }
+    this.log(`${this.device.name} initialized.`);
 
     this.registerTasks();
   }
 
-  async getTask() {
-    const cronTaskName = `SBAT:${this.getData().id}`;
+  onDeleted() {
+    this.device = this.generateDeviceObject();
 
-    try {
-      return await Homey.ManagerCron.getTask(cronTaskName);
-    } catch (err) {
-      console.log(`${this.getName()} task could not be found with name: `, cronTaskName);
+    this.log(`${this.device.name} deleting.`);
+
+    this.unregisterTasks();
+  }
+
+  generateDeviceObject() {
+    return {
+      name: this.getName(),
+      data: this.getData(),
+      state: this.getState(),
+      settings: this.getSettings(),
+      capabilities: this.getCapabilities()
     }
+  }
+
+  async onSettings(_oldSettings, newSettings, changedKeys, callback) {
+    this.device.settings = newSettings;
+
+    if (changedKeys.indexOf('polling') !== -1) {
+      this.registerTasks();
+    }
+
+    callback(null, newSettings);
   }
 
   async registerTasks() {
     await this.unregisterTasks();
 
-    const cronTaskName = `SBAT:${this.getData().id}`;
-    const cronPollingInterval = `*/${this.getSetting('polling')}' * * * *`;
+    const cronTaskName = `SBAT:${this.device.data.cid}`;
+    const cronPollingInterval = `*/${this.device.settings.polling} * * * *`;
 
     try {
-      const cronTask = await Homey.ManagerCron.registerTask(cronTaskName, cronPollingInterval, this.getData());
+      const cronTask = await Homey.ManagerCron.registerTask(cronTaskName.toLowerCase(), cronPollingInterval);
 
-      console.log(`${this.getName()} task registerd.`);
+      console.log(`${this.device.name} task registerd with name: `, cronTaskName.toLowerCase());
 
       this.awaitTask(cronTask);
     } catch (err) {
-      console.error(`${this.getName()} task could not be registered.`, err);
+      console.error(`${this.device.name} task could not be registered.`, err);
     }
   }
 
   async unregisterTasks() {
-    const cronTaskName = `SBAT:${this.getData().id}`;
+    const cronTaskName = `SBAT:${this.device.data.cid}`;
 
     try {
-      await Homey.ManagerCron.unregisterTask(cronTaskName);
+      await Homey.ManagerCron.unregisterTask(cronTaskName.toLowerCase());
 
-      console.log(`${this.getName()} task unregisterd.`);
-    } catch (_) { }
+      console.log(`${this.device.name} task unregisterd with name: `, cronTaskName.toLowerCase());
+    } catch (_err) { }
   }
 
-  async awaitTask(cronTask) {
+  awaitTask(cronTask) {
     if (!cronTask) {
       return;
     }
 
-    cronTask.on('run', (device) => {
+    cronTask.on('run', () => {
       const now = new Date().toJSON();
 
-      console.log(`${this.getName()} task executed at time: `, now, ' with data: ', device);
+      console.log(`${this.device.name} task executed at time: `, now);
+
+      this.checkDeviceAvailability();
+      this.checkDevicePowerState();
     });
 
-    console.log(`${this.getName()} awaiting for task execution, every: ${this.getSetting('polling')} minute(s).`);
+    console.log(`${this.device.name} awaiting for task execution, every: ${this.device.settings.polling} minute(s).`);
+  }
+
+  async checkDeviceAvailability() {
+    try {
+      await sonyBraviaAndroidTvCommunicator.getDeviceAvailability(this.device);
+
+      return this.setAvailable();
+    } catch (err) {
+      if (err.code === 403) {
+        this.setWarning(`Authentication with ${this.device.name} failed, check pre-shared key settings.`);
+      }
+
+      return this.setUnavailable();
+    }
+  }
+
+  async checkDevicePowerState() {
+    try {
+      const state = await sonyBraviaAndroidTvCommunicator.getDevicePowerState(this.device);
+
+      console.log(`${this.device.name} current power state: `, state);
+
+      this.setCapabilityValue('onoff', state === 'active' ? true : false);
+    } catch (err) {
+      if (err.code === 403) {
+        this.setWarning(`Authentication with ${this.device.name} failed, check pre-shared key settings.`);
+      }
+
+      this.setCapabilityValue('onoff', false);
+    }
   }
 }
 
