@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "161031b0-0826-49d6-9fd7-9be452479ea4",
+		"name": "Sony BRAVIA KD65-A1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get interface information",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getInterfaceInformation\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get LED indicator status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getLEDIndicatorStatus\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get power saving mode",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getPowerSavingMode\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get power status",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getPowerStatus\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get remote controller info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getRemoteControllerInfo\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get system supported function",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getSystemSupportedFunction\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wake-On-LAN mode",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"value": "PRESHARED_KEY",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "cache-control",
+						"value": "no-cache",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getWolMode\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get method types",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getMethodTypes\",\n\t\"params\": [\"\"],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get versions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getVersions\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get current time",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-PSK",
+						"type": "text",
+						"value": "PRESHARED_KEY"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "cache-control",
+						"type": "text",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"method\": \"getCurrentTime\",\n\t\"params\": [],\n\t\"id\": 2,\n\t\"version\": \"1.0\"\n}"
+				},
+				"url": {
+					"raw": "http://IP_ADDRESS/sony/system",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"11"
+					],
+					"path": [
+						"sony",
+						"system"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

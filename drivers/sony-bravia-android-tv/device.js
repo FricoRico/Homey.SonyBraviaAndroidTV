@@ -1,20 +1,24 @@
 const Homey = require('homey');
 
-const sonyBraviaAndroidTvCommunicator = require('../../helpers/sony-bravia-android-tv-communicator');
+const SonyBraviaAndroidTvCommunicator = require('../../helpers/sony-bravia-android-tv-communicator');
+const SonyBraviaFlowActions = require('../../definitions/flow-actions');
 
 class SonyBraviaAndroidTvDevice extends Homey.Device {
   onInit() {
-    this.device = this.generateDeviceObject();
+    this.data = this.generateDeviceObject();
 
-    this.log(`${this.device.name} initialized.`);
+    this.log(`${this.data.name} initialized.`);
 
     this.registerTasks();
+    this.registerFlows();
+    this.registerPowerOnFlow();
+    this.registerCapabilitiesListeners();
   }
 
   onDeleted() {
-    this.device = this.generateDeviceObject();
+    this.data = this.generateDeviceObject();
 
-    this.log(`${this.device.name} deleting.`);
+    this.log(`${this.data.name} deleting.`);
 
     this.unregisterTasks();
   }
@@ -30,7 +34,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   }
 
   async onSettings(_oldSettings, newSettings, changedKeys, callback) {
-    this.device.settings = newSettings;
+    this.data.settings = newSettings;
 
     if (changedKeys.indexOf('polling') !== -1) {
       this.registerTasks();
@@ -42,28 +46,62 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   async registerTasks() {
     await this.unregisterTasks();
 
-    const cronTaskName = `SBAT:${this.device.data.cid}`;
-    const cronPollingInterval = `*/${this.device.settings.polling} * * * *`;
+    const cronTaskName = `SBAT:${this.data.data.cid}`;
+    const cronPollingInterval = `*/${this.data.settings.polling} * * * *`;
 
     try {
       const cronTask = await Homey.ManagerCron.registerTask(cronTaskName.toLowerCase(), cronPollingInterval);
 
-      console.log(`${this.device.name} task registerd with name: `, cronTaskName.toLowerCase());
+      console.log(`${this.data.name} task registerd with name: `, cronTaskName.toLowerCase());
 
       this.awaitTask(cronTask);
     } catch (err) {
-      console.error(`${this.device.name} task could not be registered.`, err);
+      console.error(`${this.data.name} task could not be registered.`, err);
     }
   }
 
   async unregisterTasks() {
-    const cronTaskName = `SBAT:${this.device.data.cid}`;
+    const cronTaskName = `SBAT:${this.data.data.cid}`;
 
     try {
       await Homey.ManagerCron.unregisterTask(cronTaskName.toLowerCase());
 
-      console.log(`${this.device.name} task unregisterd with name: `, cronTaskName.toLowerCase());
+      console.log(`${this.data.name} task unregisterd with name: `, cronTaskName.toLowerCase());
     } catch (_err) { }
+  }
+
+  async registerCapabilitiesListeners() {
+    this.registerCapabilityListener('onoff', async value => {
+      try {
+        console.log(`${this.data.name} setting device power state to: `, value ? 'ON' : 'OFF');
+
+        return await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this, this.data, value);
+      } catch (err) {
+        console.log(`${this.data.name} could not register onoff capability listener: `, err);
+      }
+    })
+  }
+
+  registerFlows() {
+    SonyBraviaFlowActions.forEach(flow => {
+      try {
+        const flowCard = new Homey.FlowCardAction(flow.action).register();
+
+        flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, flow.command));
+      } catch (err) {
+        console.log(`${this.data.name} flow command could not be executed: `, flow, err);
+      }
+    });
+  }
+
+  async registerPowerOnFlow() {
+    try {
+      const flowCard = new Homey.FlowCardAction('PowerOn').register();
+
+      flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this, this.data, true));
+    } catch (err) {
+      console.log(`${this.data.name} could not be woken up: `, err);
+    }
   }
 
   awaitTask(cronTask) {
@@ -74,23 +112,23 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
     cronTask.on('run', () => {
       const now = new Date().toJSON();
 
-      console.log(`${this.device.name} task executed at time: `, now);
+      console.log(`${this.data.name} task executed at time: `, now);
 
       this.checkDeviceAvailability();
       this.checkDevicePowerState();
     });
 
-    console.log(`${this.device.name} awaiting for task execution, every: ${this.device.settings.polling} minute(s).`);
+    console.log(`${this.data.name} awaiting for task execution, every: ${this.data.settings.polling} minute(s).`);
   }
 
   async checkDeviceAvailability() {
     try {
-      await sonyBraviaAndroidTvCommunicator.getDeviceAvailability(this.device);
+      await SonyBraviaAndroidTvCommunicator.getDeviceAvailability(this.data);
 
       return this.setAvailable();
     } catch (err) {
       if (err.code === 403) {
-        this.setWarning(`Authentication with ${this.device.name} failed, check pre-shared key settings.`);
+        this.setWarning(`Authentication with ${this.data.name} failed, check pre-shared key settings.`);
       }
 
       return this.setUnavailable();
@@ -99,14 +137,14 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
   async checkDevicePowerState() {
     try {
-      const state = await sonyBraviaAndroidTvCommunicator.getDevicePowerState(this.device);
+      const state = await SonyBraviaAndroidTvCommunicator.getDevicePowerState(this.data);
 
-      console.log(`${this.device.name} current power state: `, state);
+      console.log(`${this.data.name} current power state: `, state);
 
       this.setCapabilityValue('onoff', state === 'active' ? true : false);
     } catch (err) {
       if (err.code === 403) {
-        this.setWarning(`Authentication with ${this.device.name} failed, check pre-shared key settings.`);
+        this.setWarning(`Authentication with ${this.data.name} failed, check pre-shared key settings.`);
       }
 
       this.setCapabilityValue('onoff', false);

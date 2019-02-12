@@ -143,10 +143,17 @@
   "flow": {
     "triggers": [
       {
-        "id": "connection_error",
+        "id": "ConnectionError",
         "title": {
-          "en": "Connection error(timeout|refused)?"
+          "en": "Connection error"
         },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ],
         "tokens": [
           {
             "name": "error_type",
@@ -168,7 +175,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -181,7 +188,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -194,7 +201,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -207,7 +214,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -220,7 +227,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -233,7 +240,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -246,7 +253,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -259,7 +266,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -272,7 +279,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -285,7 +292,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -298,7 +305,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -311,7 +318,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -324,7 +331,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -337,7 +344,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -350,7 +357,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -363,7 +370,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -376,7 +383,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -389,7 +396,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -402,7 +409,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -415,7 +422,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -428,7 +435,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -441,7 +448,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -454,7 +461,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -467,7 +474,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -480,7 +487,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -493,7 +500,7 @@
           {
             "name": "device",
             "type": "device",
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       }
@@ -513,7 +520,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -531,7 +538,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -549,7 +556,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -575,7 +582,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -593,7 +600,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -611,7 +618,25 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Options",
+        "title": {
+          "en": "Settings",
+          "nl": "Instellingen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer television"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -629,7 +654,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -647,7 +672,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -665,7 +690,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -683,7 +708,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -701,7 +726,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -719,7 +744,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -737,7 +762,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -755,7 +780,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -773,7 +798,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -791,7 +816,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -809,7 +834,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -827,7 +852,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -845,7 +870,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -863,7 +888,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -881,7 +906,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -899,7 +924,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -917,7 +942,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -935,7 +960,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
@@ -953,7 +978,7 @@
               "en": "Select television",
               "nl": "Selecteer television"
             },
-            "filter": "driver_id=tv"
+            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       }
