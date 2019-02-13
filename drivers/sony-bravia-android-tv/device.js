@@ -75,11 +75,65 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         console.log(`${this.data.name} setting device power state to: `, value ? 'ON' : 'OFF');
 
-        return await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this, this.data, value);
+        return await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this.data, value);
       } catch (err) {
         console.log(`${this.data.name} could not register onoff capability listener: `, err);
       }
-    })
+    });
+
+    this.registerCapabilityListener('channel_up', async () => {
+      try {
+        console.log(`${this.data.name} turning channel up.`);
+
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'ChannelUp');
+      } catch (err) {
+        console.log(`${this.data.name} could not turn channel up: `, err);
+      }
+    });
+
+    this.registerCapabilityListener('channel_down', async () => {
+      try {
+        console.log(`${this.data.name} turning channel down.`);
+
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'ChannelDown');
+      } catch (err) {
+        console.log(`${this.data.name} could not turn volume down: `, err);
+      }
+    });
+
+    this.registerCapabilityListener('volume_up', async () => {
+      try {
+        console.log(`${this.data.name} turning volume up.`);
+
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'VolumeUp');
+      } catch (err) {
+        console.log(`${this.data.name} could not turn volume up: `, err);
+      }
+    });
+
+    this.registerCapabilityListener('volume_down', async () => {
+      try {
+        console.log(`${this.data.name} turning volume down.`);
+
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'VolumeDown');
+      } catch (err) {
+        console.log(`${this.data.name} could not turn volume down: `, err);
+      }
+    });
+
+    this.registerCapabilityListener('volume_mute', async value => {
+      try {
+        if (value) {
+          console.log(`${this.data.name} muting the sound.`);
+
+          return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'Mute');
+        }
+
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'UnMute');
+      } catch (err) {
+        console.log(`${this.data.name} could not mute/unmute sound: `, err);
+      }
+    });
   }
 
   registerFlows() {
@@ -98,7 +152,17 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
     try {
       const flowCard = new Homey.FlowCardAction('PowerOn').register();
 
-      flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this, this.data, true));
+      flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this.data, true));
+    } catch (err) {
+      console.log(`${this.data.name} could not be woken up: `, err);
+    }
+  }
+
+  async registerPowerOffFlow() {
+    try {
+      const flowCard = new Homey.FlowCardAction('PowerOff').register();
+
+      flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this.data, false));
     } catch (err) {
       console.log(`${this.data.name} could not be woken up: `, err);
     }

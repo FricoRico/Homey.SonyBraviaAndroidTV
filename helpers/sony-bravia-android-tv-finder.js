@@ -88,7 +88,11 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
       },
       capabilities: [
         'onoff',
-        'volume_set'
+        'channel_up',
+        'channel_down',
+        'volume_up',
+        'volume_down',
+        'volume_mute'
       ]
     }
 

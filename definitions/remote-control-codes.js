@@ -18,6 +18,7 @@ module.exports = {
   "VolumeUp": "AAAAAQAAAAEAAAASAw==",
   "VolumeDown": "AAAAAQAAAAEAAAATAw==",
   "Mute": "AAAAAQAAAAEAAAAUAw==",
+  "UnMute": "AAAAAQAAAAEAAAASAw==",
   "TvPower": "AAAAAQAAAAEAAAAVAw==",
   "Audio": "AAAAAQAAAAEAAAAXAw==",
   "MediaAudioTrack": "AAAAAQAAAAEAAAAXAw==",

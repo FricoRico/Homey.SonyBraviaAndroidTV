@@ -36,6 +36,13 @@
       }
     ]
   },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "me@ricardoismy.name"
+      }
+    }
+  },
   "drivers": [
     {
       "id": "sony-bravia-android-tv",
@@ -49,18 +56,12 @@
       "class": "tv",
       "capabilities": [
         "onoff",
-        "volume_set"
+        "channel_up",
+        "channel_down",
+        "volume_up",
+        "volume_down",
+        "volume_mute"
       ],
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": [
-              "onoff"
-            ]
-          }
-        ]
-      },
       "pair": [
         {
           "id": "list_devices",
@@ -114,8 +115,11 @@
                 "nl": "Apparaat pollen in minuten"
               },
               "value": 5,
-              "min": 0,
-              "max": 10
+              "min": 1,
+              "max": 10,
+              "hint": {
+                "en": "Lowering this value improves automation responses when regular remote is used, but also increases load on your Homey."
+              }
             },
             {
               "id": "macAddress",
@@ -133,7 +137,7 @@
                 "en": "Enable Wake-on-LAN",
                 "nl": "Gebruik Wake-on-LAN"
               },
-              "value": true
+              "value": false
             }
           ]
         }
@@ -163,32 +167,6 @@
             "example": {
               "en": "'timeout' or 'refused'"
             }
-          }
-        ]
-      },
-      {
-        "id": "PowerOff",
-        "title": {
-          "en": "TV turned off?"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=sony-bravia-android-tv"
-          }
-        ]
-      },
-      {
-        "id": "PowerOn",
-        "title": {
-          "en": "TV turned on?"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=sony-bravia-android-tv"
           }
         ]
       },
