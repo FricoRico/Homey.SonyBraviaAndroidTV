@@ -1,5 +1,3 @@
-"use strict";
-
 const Homey = require('homey');
 
 const SonyBraviaAndroidTvFinder = require('../../helpers/sony-bravia-android-tv-finder');
@@ -32,17 +30,3 @@ class SonyBraviaAndroidTvDriver extends Homey.Driver {
 }
 
 module.exports = SonyBraviaAndroidTvDriver;
-
-
-// function searchItems(value, optionsArray) {
-
-//   var serveItems = [];
-//   for (var i = 0; i < optionsArray.length; i++) {
-//     var serveItem = optionsArray[i];
-//     if (serveItem.name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-//       serveItems.push({ icon: "", name: serveItem.name });
-//     }
-//   }
-//   return serveItems;
-// }
-

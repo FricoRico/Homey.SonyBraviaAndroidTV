@@ -1,0 +1,100 @@
+<main class="hy-tmpl-instructions">
+  <div class="hy-tmpl-instructions-row">
+    <h1>Setting up is really easy</h1>
+    <p><i>Simply follow the instructions in the video below. In short we're allowing for remote devices to start
+        your Sony BRAVIA Android TV, and set-up an authentication through a pre-shared key.</i></p>
+  </div>
+  <figure class="hy-tmpl-instructions-row">
+    <button class="hy-button hy-video-button" onclick="sonyBraviaAndroidTvInstructions.onClickVideo()">
+      <video class="hy-video" width="480" height="272" muted autoplay loop>
+        <source src="assets/video/instructions.webm" type="video/webm">
+      </video>
+    </button>
+    <figcaption>Press the video to open in YouTube</figcaption>
+  </figure>
+  <div class="hy-tmpl-instructions-row"></div>
+  <p>All settings that need adjustment are under the <b>Network</b> properties of your TV. From these network settings
+    you need to set:</p>
+  <ul>
+    <li>Remote start: <b>Enabled</b></li>
+    <li>
+      Home network setup
+      <ul>
+        <li>Authentication: <b>Normal and Pre-shared Key</b></li>
+        <li>Pre-shared key: <b>Anything, but remember it</b></li>
+      </ul>
+    </li>
+  </ul>
+  </div>
+  <div class="hy-tmpl-instructions-row">
+    <p>After this you are ready to continue setting up your Sony BRAVIA Android TV. You will be prompted for your
+      pre-shared key at a later point.</p>
+  </div>
+  <div class="hy-tmpl-instructions-row">
+    <button class="hy-button hy-button-primary hy-button-fill" type="button"
+      onclick="sonyBraviaAndroidTvInstructions.onClickContinue()">Continue</button>
+  </div>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvInstructions {
+    constructor() {
+      Homey.setTitle("Setting up your Sony BRAVIA Android TV");
+    }
+
+    onClickContinue(e) {
+      Homey.prevView();
+    }
+
+    onClickVideo(e) {
+      Homey.popup("https://www.youtube.com/watch?v=3Z20nYXZQLA");
+    }
+  }
+
+  const sonyBraviaAndroidTvInstructions = new SonyBraviaAndroidTvInstructions();
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .hy-tmpl-instructions {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-instructions ul li {
+    font-size: 13px;
+  }
+
+  .hy-tmpl-instructions-row {
+    margin-bottom: 1em;
+  }
+
+  .hy-button.hy-video-button {
+    width: 100%;
+    background: #e7e7e7;
+    border: none;
+    padding: 0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .hy-video {
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    appearance: none;
+    animation: fadeIn .3s ease-out .5s forwards;
+  }
+
+</style>

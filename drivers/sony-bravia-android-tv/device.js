@@ -11,7 +11,6 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
     this.registerTasks();
     this.registerFlows();
-    this.registerPowerOnFlow();
     this.registerCapabilitiesListeners();
   }
 
@@ -75,7 +74,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         console.log(`${this.data.name} setting device power state to: `, value ? 'ON' : 'OFF');
 
-        return await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this.data, value);
+        return await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this, this.data, value);
       } catch (err) {
         console.log(`${this.data.name} could not register onoff capability listener: `, err);
       }
@@ -85,7 +84,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         console.log(`${this.data.name} turning channel up.`);
 
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'ChannelUp');
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'ChannelUp');
       } catch (err) {
         console.log(`${this.data.name} could not turn channel up: `, err);
       }
@@ -95,7 +94,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         console.log(`${this.data.name} turning channel down.`);
 
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'ChannelDown');
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'ChannelDown');
       } catch (err) {
         console.log(`${this.data.name} could not turn volume down: `, err);
       }
@@ -105,7 +104,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         console.log(`${this.data.name} turning volume up.`);
 
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'VolumeUp');
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'VolumeUp');
       } catch (err) {
         console.log(`${this.data.name} could not turn volume up: `, err);
       }
@@ -115,7 +114,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         console.log(`${this.data.name} turning volume down.`);
 
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'VolumeDown');
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'VolumeDown');
       } catch (err) {
         console.log(`${this.data.name} could not turn volume down: `, err);
       }
@@ -126,10 +125,10 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
         if (value) {
           console.log(`${this.data.name} muting the sound.`);
 
-          return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'Mute');
+          return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'Mute');
         }
 
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, 'UnMute');
+        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'UnMute');
       } catch (err) {
         console.log(`${this.data.name} could not mute/unmute sound: `, err);
       }
@@ -141,31 +140,21 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       try {
         const flowCard = new Homey.FlowCardAction(flow.action).register();
 
-        flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, flow.command));
+        flowCard.registerRunListener(async (args, state) => {
+          flow.parsedCommand = flow.command;
+
+          if (flow.command instanceof Function) {
+            flow.parsedCommand = flow.command(args, state)
+          }
+
+          console.log(`${this.data.name} starting flow:  ${flow.action}  and sending command: `, flow.parsedCommand);
+
+          await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, flow.action, flow.parsedCommand);
+        });
       } catch (err) {
         console.log(`${this.data.name} flow command could not be executed: `, flow, err);
       }
     });
-  }
-
-  async registerPowerOnFlow() {
-    try {
-      const flowCard = new Homey.FlowCardAction('PowerOn').register();
-
-      flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this.data, true));
-    } catch (err) {
-      console.log(`${this.data.name} could not be woken up: `, err);
-    }
-  }
-
-  async registerPowerOffFlow() {
-    try {
-      const flowCard = new Homey.FlowCardAction('PowerOff').register();
-
-      flowCard.registerRunListener(async () => await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this.data, false));
-    } catch (err) {
-      console.log(`${this.data.name} could not be woken up: `, err);
-    }
   }
 
   awaitTask(cronTask) {

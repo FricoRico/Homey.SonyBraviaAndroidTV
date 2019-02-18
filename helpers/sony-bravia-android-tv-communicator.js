@@ -60,13 +60,13 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
     }
   }
 
-  async setDevicePowerState(data, state) {
+  async setDevicePowerState(device, data, state) {
     if (!state) {
-      return await this.sendCommand(null, data, 'PowerOff');
+      return await this.sendCommand(device, data, null, 'PowerOff');
     }
 
     if (!data.settings.useWOL) {
-      return await this.sendCommand(null, data, 'PowerOn');
+      return await this.sendCommand(device, data, null, 'PowerOn');
     }
 
     return await this.sendWakeOnLanCommand(data);
@@ -87,10 +87,10 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
     }
   }
 
-  async sendCommand(device, data, command) {
+  async sendCommand(device, data, action, command) {
     try {
-      if (device) {
-        new Homey.FlowCardTriggerDevice(command).register().trigger(device);
+      if (action) {
+        new Homey.FlowCardTriggerDevice(action).register().trigger(device, { token: command });
       }
 
       return await Fetch(`http://${data.settings.ip}/sony/IRCC`, {

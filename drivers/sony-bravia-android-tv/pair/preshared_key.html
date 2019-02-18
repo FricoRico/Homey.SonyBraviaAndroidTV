@@ -1,14 +1,24 @@
 <main class="hy-tmpl-preshared-key">
   <div class="hy-tmpl-preshared-key-image"></div>
+  <div class="hy-tmpl-preshared-key-row">
+    <p><i>The pre-shared key is used to authenticate with your Sony BRAVIA Android TV over your local network. You need
+        to set it up before you can continue with adding your television. If you need help see the <b>Setting up a
+          pre-shared key</b> button below.</i></p>
+  </div>
   <form class="hy-tmpl-preshared-key-form">
     <div class="hy-tmpl-preshared-key-row">
       <label class="hy-label" for="preshared_key">Pre-shared key:</p>
     </div>
     <div class="hy-tmpl-preshared-key-row">
-      <input class="hy-input-text" type="password" id="preshared_key" name="psk" placeholder="Pre-shared key" required />
+      <input class="hy-input-text" type="password" id="preshared_key" name="psk" placeholder="Pre-shared key"
+        required />
     </div>
     <div class="hy-tmpl-preshared-key-row">
-      <button class="hy-button hy-button-primary hy-button-fill" type="submit">Ok</button>
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit">Done</button>
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <button class="hy-button hy-button-text-only" type="button"
+        onclick="sonyBraviaAndroidTvPresharedKey.onClickInstructions()">Setting up a pre-shared key</button>
     </div>
   </form>
 </main>
@@ -16,6 +26,10 @@
 <script type="text/javascript">
   class SonyBraviaAndroidTvPresharedKey {
     constructor() {
+      if (this.device) {
+        Homey.setTitle(`Setup PSK for ${this.device.name}`);
+      }
+
       Homey.getViewStoreValue('add_devices', 'devices', (err, device) => {
         this.device = device.shift();
 
@@ -46,6 +60,10 @@
         });
       });
     }
+
+    onClickInstructions(e) {
+      Homey.showView('instructions');
+    }
   }
 
   const sonyBraviaAndroidTvPresharedKey = new SonyBraviaAndroidTvPresharedKey();
@@ -53,7 +71,7 @@
 
 <style>
   .hy-tmpl-preshared-key {
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -78,6 +96,11 @@
 
   .hy-tmpl-preshared-key-row {
     margin-bottom: 1em;
+  }
+
+  .hy-button.hy-button-text-only {
+    width: 100%;
+    background: transparent;
   }
 
 </style>
