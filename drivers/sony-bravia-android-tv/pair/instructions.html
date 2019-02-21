@@ -43,7 +43,13 @@
     }
 
     onClickContinue(e) {
-      Homey.prevView();
+      Homey.getViewStoreValue('instructions', 'previous_view', (err, viewId) => {
+        if (err) {
+          Homey.alert('Previous view could not be loaded');
+        }
+
+        Homey.showView(viewId);
+      });
     }
 
     onClickVideo(e) {

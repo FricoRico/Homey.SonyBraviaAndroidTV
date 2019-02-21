@@ -4,6 +4,8 @@ const SsdpClient = require('node-ssdp').Client;
 const Fetch = require('node-fetch');
 const DeepMerge = require('deepmerge');
 
+const BaseName = 'Sony BRAVIA Android TV';
+
 class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
   constructor() {
     super();
@@ -60,10 +62,16 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
     const ipAddress = headers.LOCATION.match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/).shift();
     console.log('Sony BRAVIA Android TV found on: ', ipAddress);
 
-    const device = {
-      name: 'Sony BRAVIA Android TV',
+    const device = this.populateDeviceData(null, headers.USN, ipAddress, null);
+
+    return device;
+  }
+
+  populateDeviceData(name, id, ipAddress, macAddress) {
+    return {
+      name: name || BaseName,
       data: {
-        id: headers.USN,
+        id: id || '',
         type: 'device',
         class: 'tv',
         product: '',
@@ -84,7 +92,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
         ip: ipAddress,
         psk: '',
         polling: 5,
-        macAddress: '',
+        macAddress: macAddress || '',
       },
       capabilities: [
         'onoff',
@@ -95,8 +103,6 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
         'volume_mute'
       ]
     }
-
-    return device;
   }
 
   async fetchBasicDeviceDetais(device) {
@@ -125,8 +131,10 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
 
       console.log('Sony BRAVIA Android TV basic details found: ', parsedResponse);
 
+      const name = device.name === BaseName ? `Sony ${parsedResponse.productName} ${parsedResponse.modelName}` : device.name;
+
       return DeepMerge(device, {
-        name: `Sony ${parsedResponse.productName} ${parsedResponse.modelName}`,
+        name: name,
         data: {
           valid: true
         }
@@ -159,6 +167,8 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
 
       console.log('Sony BRAVIA Android TV extended details found: ', parsedResponse);
 
+      const macAddress = device.settings.macAddress ? device.settings.macAddress : parsedResponse.macAddr;
+
       return DeepMerge(device, {
         data: {
           product: parsedResponse.product,
@@ -172,7 +182,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
           cid: parsedResponse.cid,
         },
         settings: {
-          macAddress: parsedResponse.macAddr
+          macAddress: macAddress
         }
       });
     } catch (err) {

@@ -1,0 +1,99 @@
+<main class="hy-tmpl-manual-input">
+  <div class="hy-tmpl-manual-input-image"></div>
+  <div class="hy-tmpl-manual-input-row">
+    <p><i>Adding the television manually is only for advanced users. For an easier set-up experience please
+        use the default automatic mode. Optional fields below will be automatically filled if a connection to the Sony
+        BRAVIA
+        Android TV can be made.</i></p>
+  </div>
+  <form class="hy-tmpl-manual-input-form">
+    <div class="hy-tmpl-manual-input-row">
+      <label class="hy-label" for="name">Name (optional):</p>
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <input class="hy-input-text" type="text" id="name" name="name" placeholder="Name" />
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <label class="hy-label" for="ip_address">IP address:</p>
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <input class="hy-input-text" type="text" id="ip_address" name="ipAddress" placeholder="IP address" required />
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <label class="hy-label" for="mac_address">MAC address (optional):</p>
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <input class="hy-input-text" type="text" id="mac_address" name="macAddress" placeholder="MAC address" />
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit">Next</button>
+    </div>
+  </form>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvManualInput {
+    constructor() {
+      Homey.setTitle('Manually add Sony BRAVIA Android TV');
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', e => this.onSubmit(e, this.device));
+    }
+
+    onSubmit(e, device) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = {
+        name: formData.get('name'),
+        ipAddress: formData.get('ipAddress'),
+        macAddress: formData.get('macAddress')
+      }
+
+      Homey.showLoadingOverlay();
+      Homey.emit('manual_input', data, (err, device) => {
+        if (err) {
+          Homey.hideLoadingOverlay();
+          return Homey.alert('Connection could not be estabished');
+        }
+
+        Homey.setViewStoreValue('add_devices', 'devices', [device], (err, device) => {
+          Homey.showView('preshared_key');
+        });
+      });
+    }
+  }
+
+  const sonyBraviaAndroidTvManualInput = new SonyBraviaAndroidTvManualInput();
+</script>
+
+<style>
+  .hy-tmpl-manual-input {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-manual-input-image {
+    display: block;
+    position: relative;
+    width: 25vw;
+    height: 25vw;
+    margin: 20vw auto;
+    background-image: url('assets/images/manual-icon.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hy-tmpl-manual-input-form {
+    position: relative;
+    width: 100%;
+  }
+
+  .hy-tmpl-manual-input-row {
+    margin-bottom: 1em;
+  }
+
+</style>

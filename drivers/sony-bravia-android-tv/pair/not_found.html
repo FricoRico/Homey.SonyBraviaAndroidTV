@@ -1,0 +1,66 @@
+<main class="hy-tmpl-not-found">
+  <div class="hy-tmpl-not-found-image"></div>
+  <div class="hy-tmpl-not-found-row">
+    <p><i>No Sony BRAVIA Android TV's could be found. Make sure the television is <b>Turned on</b> and try again. You
+        can also try adding the televisions IP address manually, however this is for advanced users only.</i></p>
+  </div>
+  <div class="hy-tmpl-preshared-key-row">
+    <button class="hy-button hy-button-primary hy-button-fill" type="button"
+      onclick="sonyBraviaAndroidTvNotFound.onClickManualInput()">Manual input</button>
+  </div>
+  <div class="hy-tmpl-preshared-key-row">
+    <button class="hy-button hy-button-text-only" type="button"
+      onclick="sonyBraviaAndroidTvNotFound.onClickInstructions()">Further instructions</button>
+  </div>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvNotFound {
+    constructor() {
+      Homey.setTitle(`No Sony BRAVIA Android TV's found`);
+    }
+
+    onClickManualInput(e) {
+      Homey.showView('manual_input');
+    }
+
+    onClickInstructions(e) {
+      Homey.setViewStoreValue('instructions', 'previous_view', 'manual_input', (err) => {
+        Homey.showView('instructions');
+      });
+    }
+  }
+
+  const sonyBraviaAndroidTvNotFound = new SonyBraviaAndroidTvNotFound();
+</script>
+
+<style>
+  .hy-tmpl-not-found {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-not-found-image {
+    display: block;
+    position: relative;
+    width: 25vw;
+    height: 25vw;
+    margin: 20vw auto;
+    background-image: url('assets/images/not-found-icon.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hy-tmpl-not-found-row {
+    margin-bottom: 1em;
+  }
+
+  .hy-button.hy-button-text-only {
+    width: 100%;
+    background: transparent;
+  }
+
+</style>

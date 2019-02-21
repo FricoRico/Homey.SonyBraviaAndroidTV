@@ -83,6 +83,12 @@
           "id": "instructions"
         },
         {
+          "id": "not_found"
+        },
+        {
+          "id": "manual_input"
+        },
+        {
           "id": "add_devices",
           "template": "add_devices"
         }
@@ -117,8 +123,8 @@
               "id": "polling",
               "type": "number",
               "label": {
-                "en": "Device polling in minutes",
-                "nl": "Apparaat pollen in minuten"
+                "en": "Device polling interval in minutes",
+                "nl": "Apparaat polling interval in minuten"
               },
               "value": 5,
               "min": 1,

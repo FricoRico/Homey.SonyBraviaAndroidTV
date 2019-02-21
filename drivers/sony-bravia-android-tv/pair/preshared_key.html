@@ -44,7 +44,6 @@
       e.preventDefault();
 
       const formData = new FormData(e.target);
-      const presharedKey = document.getElementById('preshared_key');
 
       device.settings.psk = formData.get('psk');
 
@@ -62,7 +61,9 @@
     }
 
     onClickInstructions(e) {
-      Homey.showView('instructions');
+      Homey.setViewStoreValue('instructions', 'previous_view', 'preshared_key', (err) => {
+        Homey.showView('instructions');
+      });
     }
   }
 
