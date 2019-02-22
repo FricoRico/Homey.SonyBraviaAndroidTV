@@ -192,4 +192,4 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
   }
 }
 
-module.exports = new SonyBraviaAndroidTvFinder()
+module.exports = new SonyBraviaAndroidTvFinder();
