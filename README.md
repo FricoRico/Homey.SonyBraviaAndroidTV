@@ -78,5 +78,4 @@ Future releases will support media playback flow actions through a third-party A
 - Added node_modules to the repository because Homey does not automatically restore them.
 
 ### v1.0.0
-**ititial release:**
-- Initial release of all basic Sony BRAVIA Android TV functionality available through their SOAP API.
+**ititial release:** Initial release of all basic Sony BRAVIA Android TV functionality available through their SOAP API.
