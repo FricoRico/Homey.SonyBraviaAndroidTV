@@ -1,23 +1,22 @@
 <main class="hy-tmpl-not-found">
   <div class="hy-tmpl-not-found-image"></div>
   <div class="hy-tmpl-not-found-row">
-    <p><i>No Sony BRAVIA Android TV's could be found. Make sure the television is <b>Turned on</b> and try again. You
-        can also try adding the televisions IP address manually, however this is for advanced users only.</i></p>
+    <p data-i18n="not_found.intro"></p>
   </div>
   <div class="hy-tmpl-preshared-key-row">
     <button class="hy-button hy-button-primary hy-button-fill" type="button"
-      onclick="sonyBraviaAndroidTvNotFound.onClickManualInput()">Manual input</button>
+      onclick="sonyBraviaAndroidTvNotFound.onClickManualInput()" data-i18n="not_found.buttons.manual_input"></button>
   </div>
   <div class="hy-tmpl-preshared-key-row">
     <button class="hy-button hy-button-text-only" type="button"
-      onclick="sonyBraviaAndroidTvNotFound.onClickInstructions()">Further instructions</button>
+      onclick="sonyBraviaAndroidTvNotFound.onClickInstructions()" data-i18n="not_found.buttons.manual_input"></button>
   </div>
 </main>
 
 <script type="text/javascript">
   class SonyBraviaAndroidTvNotFound {
     constructor() {
-      Homey.setTitle(`No Sony BRAVIA Android TV's found`);
+      Homey.setTitle(Homey.__('not_found.title'));
     }
 
     onClickManualInput(e) {

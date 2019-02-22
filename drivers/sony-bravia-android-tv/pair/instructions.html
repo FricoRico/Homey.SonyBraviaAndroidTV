@@ -1,8 +1,7 @@
 <main class="hy-tmpl-instructions">
   <div class="hy-tmpl-instructions-row">
-    <h1>Setting up is really easy</h1>
-    <p><i>Simply follow the instructions in the video below. In short we're allowing for remote devices to start
-        your Sony BRAVIA Android TV, and set-up an authentication through a pre-shared key.</i></p>
+    <h1 data-i18n="instructions.titles.page"></h1>
+    <p data-i18n="instructions.intro"></p>
   </div>
   <figure class="hy-tmpl-instructions-row">
     <button class="hy-button hy-video-button" onclick="sonyBraviaAndroidTvInstructions.onClickVideo()">
@@ -10,42 +9,31 @@
         <source src="assets/video/instructions.webm" type="video/webm">
       </video>
     </button>
-    <figcaption>Press the video to open in YouTube</figcaption>
+    <figcaption data-i18n="instructions.video_caption"></figcaption>
   </figure>
-  <div class="hy-tmpl-instructions-row"></div>
-  <p>All settings that need adjustment are under the <b>Network</b> properties of your TV. From these network settings
-    you need to set:</p>
-  <ul>
-    <li>Remote start: <b>Enabled</b></li>
-    <li>
-      Home network setup
-      <ul>
-        <li>Authentication: <b>Normal and Pre-shared Key</b></li>
-        <li>Pre-shared key: <b>Anything, but remember it</b></li>
-      </ul>
-    </li>
-  </ul>
+  <div class="hy-tmpl-instructions-row">
+    <p data-i18n="instructions.step_by_step.intro"></p>
+    <ul data-i18n="instructions.step_by_step.steps"></ul>
   </div>
   <div class="hy-tmpl-instructions-row">
-    <p>After this you are ready to continue setting up your Sony BRAVIA Android TV. You will be prompted for your
-      pre-shared key at a later point.</p>
+    <p data-i18n="instructions.step_by_step.outro"></p>
   </div>
   <div class="hy-tmpl-instructions-row">
     <button class="hy-button hy-button-primary hy-button-fill" type="button"
-      onclick="sonyBraviaAndroidTvInstructions.onClickContinue()">Continue</button>
+      onclick="sonyBraviaAndroidTvInstructions.onClickContinue()" data-i18n="instructions.buttons.continue"></button>
   </div>
 </main>
 
 <script type="text/javascript">
   class SonyBraviaAndroidTvInstructions {
     constructor() {
-      Homey.setTitle("Setting up your Sony BRAVIA Android TV");
+      Homey.setTitle(Homey.__("instructions.titles.header"));
     }
 
     onClickContinue(e) {
       Homey.getViewStoreValue('instructions', 'previous_view', (err, viewId) => {
         if (err) {
-          Homey.alert('Previous view could not be loaded');
+          Homey.alert(Homey.__("errors.previous_view"));
         }
 
         Homey.showView(viewId);

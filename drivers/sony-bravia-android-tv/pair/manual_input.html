@@ -1,32 +1,33 @@
 <main class="hy-tmpl-manual-input">
   <div class="hy-tmpl-manual-input-image"></div>
   <div class="hy-tmpl-manual-input-row">
-    <p><i>Adding the television manually is only for advanced users. For an easier set-up experience please
-        use the default automatic mode. Optional fields below will be automatically filled if a connection to the Sony
-        BRAVIA
-        Android TV can be made.</i></p>
+    <p data-i18n="manual_input.intro"></p>
   </div>
   <form class="hy-tmpl-manual-input-form">
     <div class="hy-tmpl-manual-input-row">
-      <label class="hy-label" for="name">Name (optional):</p>
+      <label class="hy-label" for="name" data-i18n="manual_input.inputs.name.label"></label>
     </div>
     <div class="hy-tmpl-manual-input-row">
-      <input class="hy-input-text" type="text" id="name" name="name" placeholder="Name" />
+      <input class="hy-input-text" type="text" id="name" name="name"
+        i18n-placeholder="manual_input.inputs.name.placeholder" />
     </div>
     <div class="hy-tmpl-manual-input-row">
-      <label class="hy-label" for="ip_address">IP address:</p>
+      <label class="hy-label" for="ip_address" data-i18n="manual_input.inputs.ip_address.label"></label>
     </div>
     <div class="hy-tmpl-manual-input-row">
-      <input class="hy-input-text" type="text" id="ip_address" name="ipAddress" placeholder="IP address" required />
+      <input class="hy-input-text" type="text" id="ip_address" name="ipAddress"
+        i18n-placeholder="manual_input.inputs.ip_address.placeholder" required />
     </div>
     <div class="hy-tmpl-manual-input-row">
-      <label class="hy-label" for="mac_address">MAC address (optional):</p>
+      <label class="hy-label" for="mac_address" data-i18n="manual_input.inputs.mac_address.label"></label>
     </div>
     <div class="hy-tmpl-manual-input-row">
-      <input class="hy-input-text" type="text" id="mac_address" name="macAddress" placeholder="MAC address" />
+      <input class="hy-input-text" type="text" id="mac_address" name="macAddress"
+        i18n-placeholder="manual_input.inputs.mac_address.placeholder" />
     </div>
     <div class="hy-tmpl-preshared-key-row">
-      <button class="hy-button hy-button-primary hy-button-fill" type="submit">Next</button>
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit"
+        data-i18n="manual_input.buttons.next"></button>
     </div>
   </form>
 </main>
@@ -34,7 +35,7 @@
 <script type="text/javascript">
   class SonyBraviaAndroidTvManualInput {
     constructor() {
-      Homey.setTitle('Manually add Sony BRAVIA Android TV');
+      Homey.setTitle(Homey.__('manual_input.title'));
 
       const form = document.querySelector('form');
       form.addEventListener('submit', e => this.onSubmit(e, this.device));
@@ -54,7 +55,7 @@
       Homey.emit('manual_input', data, (err, device) => {
         if (err) {
           Homey.hideLoadingOverlay();
-          return Homey.alert('Connection could not be estabished');
+          return Homey.alert(Homey.__('errors.connection'));
         }
 
         Homey.setViewStoreValue('add_devices', 'devices', [device], (err, device) => {

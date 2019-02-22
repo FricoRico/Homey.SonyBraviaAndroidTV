@@ -233,10 +233,10 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
   showWarning(err) {
     if (err.code === 403) {
-      return this.setWarning('Authentication failed, check pre-shared key settings.');
+      return this.setWarning(Homey.__('errors.authentication'));
     }
 
-    return this.setWarning('An unknown error occured, please try again.');
+    return this.setWarning(Homey.__('errors.unknown'));
   }
 }
 
