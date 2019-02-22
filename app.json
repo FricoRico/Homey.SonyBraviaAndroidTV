@@ -27,11 +27,15 @@
   "contributors": {
     "developers": [
       {
-        "name": "Jorden Chamid",
+        "name": "Ricardo Snoek",
+        "email": "me@ricardoismy.name"
+      },
+      {
+        "name": "Jorden Chamid (legacy)",
         "email": "info@chamidmedia.nl"
       },
       {
-        "name": "Marco Frijmann",
+        "name": "Marco Frijmann (legacy)",
         "email": "info@frijmann.nl"
       }
     ]
