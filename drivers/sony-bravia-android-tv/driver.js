@@ -25,7 +25,7 @@ class SonyBraviaAndroidTvDriver extends Homey.Driver {
     const device = SonyBraviaAndroidTvFinder.populateDeviceData(data.name, null, data.ipAddress, data.macAddress);
 
     try {
-      const basicDevice = await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetais(device);
+      const basicDevice = await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails(device);
 
       console.log('Got basic Sony BRAVIA Android TV data: ', basicDevice);
 

@@ -29,7 +29,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
       return;
     }
 
-    const validatedDevice = await this.fetchBasicDeviceDetais(device);
+    const validatedDevice = await this.fetchBasicDeviceDetails(device);
 
     if (!validatedDevice) {
       return;
@@ -105,7 +105,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
     }
   }
 
-  async fetchBasicDeviceDetais(device) {
+  async fetchBasicDeviceDetails(device) {
     try {
       const response = await Fetch(`http://${device.settings.ip}/sony/system`, {
         method: 'POST',
