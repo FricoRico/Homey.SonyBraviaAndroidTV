@@ -7,7 +7,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   onInit() {
     this.data = this.generateDeviceObject();
 
-    this.log(`${this.data.name} initialized.`);
+    console.log(`${this.data.name} initialized.`);
 
     this.registerTasks();
     this.registerFlows();
@@ -17,7 +17,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   onDeleted() {
     this.data = this.generateDeviceObject();
 
-    this.log(`${this.data.name} deleting.`);
+    console.log(`${this.data.name} deleting.`);
 
     this.unregisterTasks();
   }
