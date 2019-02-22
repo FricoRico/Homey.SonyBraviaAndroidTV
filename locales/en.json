@@ -4,7 +4,7 @@
     "unkown": "An unknown error occured, please try again.",
     "connection": "Connection could not be estabished.",
     "preshared_key": "Pre-shared key is invalid, check television settings.",
-    "previous_view": "Previous view could not be loaded"
+    "previous_view": "Previous view could not be loaded."
   },
   "not_found": {
     "title": "No Sony BRAVIA Android TV's found",
@@ -38,9 +38,9 @@
   "preshared_key": {
     "titles": {
       "with_device": "Setup PSK for __device__",
-      "no_device": "Setup PSK",
+      "no_device": "Setup PSK"
     },
-    "intro": "<i>The pre-shared key is used to authenticate with your Sony BRAVIA Android TV over your local network. You need to set it up before you can continue with adding your television. If you need help see the <b>Setting up a pre-shared key</b> button below.</i>",
+    "intro": "<i>The pre-shared key is used to authenticate with your Sony BRAVIA Android TV over your local network. You need to set it up before you can continue with adding your television. If you need help see the <b>View instructions</b> button below.</i>",
     "inputs": {
       "preshared_key": {
         "label": "Pre-shared key:",
@@ -49,7 +49,7 @@
     },
     "buttons": {
       "done": "Done",
-      "instructions": "Setting up a pre-shared key"
+      "instructions": "View instructions"
     }
   },
   "instructions": {
@@ -61,7 +61,7 @@
     "video_caption": "Press the video to open in YouTube",
     "step_by_step": {
       "intro": "All settings that need adjustment are under the <b>Network</b> properties of your TV. From these network settings you need to set:",
-      "steps": "<li>Remote start: <b>Enabled</b></li><li>Home network setup<ul><li>Authentication: <b>Normal and Pre-shared Key</b></li><li>Pre-shared key: <b>Anything, but remember it</b></li></ul></li>",
+      "steps": "<li>Remote start: <b>Enabled</b></li><li>Home network setup<ul><li>Authentication: <b>Normal and Pre-shared Key</b></li><li>Pre-shared Key: <b>Anything, but remember it</b></li></ul></li>",
       "outro": "After this you are ready to continue setting up your Sony BRAVIA Android TV. You will be prompted for your pre-shared key at a later point."
     },
     "buttons": {

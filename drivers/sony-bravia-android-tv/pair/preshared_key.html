@@ -29,13 +29,13 @@
       Homey.setTitle(Homey.__('preshared_key.titles.no_device'));
 
       if (this.device) {
-        Homey.setTitle(Homey.__('preshared_key.titles.with_device', this.device.name));
+        Homey.setTitle(Homey.__('preshared_key.titles.with_device', { device: this.device.name }));
       }
 
       Homey.getViewStoreValue('add_devices', 'devices', (err, device) => {
         this.device = device.shift();
 
-        Homey.setTitle(Homey.__('preshared_key.titles.with_device', this.device.name));
+        Homey.setTitle(Homey.__('preshared_key.titles.with_device', { device: this.device.name }));
       })
 
       const form = document.querySelector('form');
