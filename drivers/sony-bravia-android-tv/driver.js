@@ -4,7 +4,8 @@ const SonyBraviaAndroidTvFinder = require('../../helpers/sony-bravia-android-tv-
 
 class SonyBraviaAndroidTvDriver extends Homey.Driver {
   onPair(socket) {
-    socket.on('list_devices', (_devices, callback) => this.fetchAvailableDevices(callback));
+    socket.on('list_devices', (_devices, callback) => this.fetchAvailableDevices(callback, socket));
+    socket.on('manual_input', (data, callback) => this.fetchDeviceDetails(data, callback));
     socket.on('preshared_key', (device, callback) => this.fetchExpandedDeviceDetails(device, callback));
   }
 
@@ -20,10 +21,28 @@ class SonyBraviaAndroidTvDriver extends Homey.Driver {
     }
   }
 
-  async fetchAvailableDevices(callback) {
+  async fetchDeviceDetails(data, callback) {
+    const device = SonyBraviaAndroidTvFinder.populateDeviceData(data.name, null, data.ipAddress, data.macAddress);
+
+    try {
+      const basicDevice = await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetais(device);
+
+      console.log('Got basic Sony BRAVIA Android TV data: ', basicDevice);
+
+      callback(null, basicDevice);
+    } catch (err) {
+      callback(err, null);
+    }
+  }
+
+  async fetchAvailableDevices(callback, socket) {
     const devices = await SonyBraviaAndroidTvFinder.getAllDevices();
 
     console.log('Found Sony BRAVIA Android TV\'s: ', devices);
+
+    if (devices.length < 1) {
+      socket.showView('not_found');
+    }
 
     callback(null, devices);
   }

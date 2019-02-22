@@ -1,1 +1,71 @@
-{}
+{
+  "errors": {
+    "authentication": "Authentication failed, check pre-shared key settings.",
+    "unkown": "An unknown error occured, please try again.",
+    "connection": "Connection could not be estabished.",
+    "preshared_key": "Pre-shared key is invalid, check television settings.",
+    "previous_view": "Previous view could not be loaded."
+  },
+  "not_found": {
+    "title": "No Sony BRAVIA Android TV's found",
+    "intro": "<i>No Sony BRAVIA Android TV's could be found. Make sure the television is <b>Turned on</b> and try again. You can also try adding the televisions IP address manually, however this is for advanced users only.</i>",
+    "buttons": {
+      "manual_input": "Manual input",
+      "instructions": "View instructions"
+    }
+  },
+  "manual_input": {
+    "title": "Manually add Sony BRAVIA Android TV",
+    "intro": "<i>Adding the television manually is only for advanced users. For an easier set-up experience please use the default automatic mode. Optional fields below will be automatically filled if a connection to the Sony BRAVIA Android TV can be made.</i>",
+    "inputs": {
+      "name": {
+        "label": "Name (optional):",
+        "placeholder": "Name"
+      },
+      "ip_address": {
+        "label": "IP address:",
+        "placeholder": "IP address"
+      },
+      "mac_address": {
+        "label": "MAC address (optional):",
+        "placeholder": "MAC address"
+      }
+    },
+    "buttons": {
+      "next": "Next"
+    }
+  },
+  "preshared_key": {
+    "titles": {
+      "with_device": "Setup PSK for __device__",
+      "no_device": "Setup PSK"
+    },
+    "intro": "<i>The pre-shared key is used to authenticate with your Sony BRAVIA Android TV over your local network. You need to set it up before you can continue with adding your television. If you need help see the <b>View instructions</b> button below.</i>",
+    "inputs": {
+      "preshared_key": {
+        "label": "Pre-shared key:",
+        "placeholder": "Pre-shared key"
+      }
+    },
+    "buttons": {
+      "done": "Done",
+      "instructions": "View instructions"
+    }
+  },
+  "instructions": {
+    "titles": {
+      "header": "Setting up your Sony BRAVIA Android TV",
+      "page": "Setting up is really easy"
+    },
+    "intro": "<i>Simply follow the instructions in the video below. In short we're allowing for remote devices to start your Sony BRAVIA Android TV, and set-up an authentication through a pre-shared key.</i>",
+    "video_caption": "Press the video to open in YouTube",
+    "step_by_step": {
+      "intro": "All settings that need adjustment are under the <b>Network</b> properties of your TV. From these network settings you need to set:",
+      "steps": "<li>Remote start: <b>Enabled</b></li><li>Home network setup<ul><li>Authentication: <b>Normal and Pre-shared Key</b></li><li>Pre-shared Key: <b>Anything, but remember it</b></li></ul></li>",
+      "outro": "After this you are ready to continue setting up your Sony BRAVIA Android TV. You will be prompted for your pre-shared key at a later point."
+    },
+    "buttons": {
+      "back": "Back"
+    }
+  }
+}

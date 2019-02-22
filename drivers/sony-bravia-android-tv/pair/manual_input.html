@@ -1,0 +1,100 @@
+<main class="hy-tmpl-manual-input">
+  <div class="hy-tmpl-manual-input-image"></div>
+  <div class="hy-tmpl-manual-input-row">
+    <p data-i18n="manual_input.intro"></p>
+  </div>
+  <form class="hy-tmpl-manual-input-form">
+    <div class="hy-tmpl-manual-input-row">
+      <label class="hy-label" for="name" data-i18n="manual_input.inputs.name.label"></label>
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <input class="hy-input-text" type="text" id="name" name="name"
+        data-i18n="[placeholder]manual_input.inputs.name.placeholder" />
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <label class="hy-label" for="ip_address" data-i18n="manual_input.inputs.ip_address.label"></label>
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <input class="hy-input-text" type="text" id="ip_address" name="ipAddress"
+        data-i18n="[placeholder]manual_input.inputs.ip_address.placeholder" required />
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <label class="hy-label" for="mac_address" data-i18n="manual_input.inputs.mac_address.label"></label>
+    </div>
+    <div class="hy-tmpl-manual-input-row">
+      <input class="hy-input-text" type="text" id="mac_address" name="macAddress"
+        data-i18n="[placeholder]manual_input.inputs.mac_address.placeholder" />
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit"
+        data-i18n="manual_input.buttons.next"></button>
+    </div>
+  </form>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvManualInput {
+    constructor() {
+      Homey.setTitle(Homey.__('manual_input.title'));
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', e => this.onSubmit(e, this.device));
+    }
+
+    onSubmit(e, device) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = {
+        name: formData.get('name'),
+        ipAddress: formData.get('ipAddress'),
+        macAddress: formData.get('macAddress')
+      }
+
+      Homey.showLoadingOverlay();
+      Homey.emit('manual_input', data, (err, device) => {
+        if (err) {
+          Homey.hideLoadingOverlay();
+          return Homey.alert(Homey.__('errors.connection'));
+        }
+
+        Homey.setViewStoreValue('add_devices', 'devices', [device], (err, device) => {
+          Homey.showView('preshared_key');
+        });
+      });
+    }
+  }
+
+  const sonyBraviaAndroidTvManualInput = new SonyBraviaAndroidTvManualInput();
+</script>
+
+<style>
+  .hy-tmpl-manual-input {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-manual-input-image {
+    display: block;
+    position: relative;
+    width: 25vw;
+    height: 25vw;
+    margin: 20vw auto;
+    background-image: url('assets/images/manual-icon.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hy-tmpl-manual-input-form {
+    position: relative;
+    width: 100%;
+  }
+
+  .hy-tmpl-manual-input-row {
+    margin-bottom: 1em;
+  }
+
+</style>

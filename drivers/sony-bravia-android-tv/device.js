@@ -2,22 +2,23 @@ const Homey = require('homey');
 
 const SonyBraviaAndroidTvCommunicator = require('../../helpers/sony-bravia-android-tv-communicator');
 const SonyBraviaFlowActions = require('../../definitions/flow-actions');
+const SonyBraviaCapabilities = require('../../definitions/capabilities');
 
 class SonyBraviaAndroidTvDevice extends Homey.Device {
   onInit() {
     this.data = this.generateDeviceObject();
 
-    this.log(`${this.data.name} initialized.`);
+    console.log(`${this.data.name} initialized.`);
 
     this.registerTasks();
-    this.registerFlows();
-    this.registerCapabilitiesListeners();
+    this.registerFlowListeners();
+    this.registerCapabilityListeners();
   }
 
   onDeleted() {
     this.data = this.generateDeviceObject();
 
-    this.log(`${this.data.name} deleting.`);
+    console.log(`${this.data.name} deleting.`);
 
     this.unregisterTasks();
   }
@@ -69,90 +70,48 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
     } catch (_err) { }
   }
 
-  async registerCapabilitiesListeners() {
-    this.registerCapabilityListener('onoff', async value => {
-      try {
-        console.log(`${this.data.name} setting device power state to: `, value ? 'ON' : 'OFF');
+  async registerCapabilityListeners() {
+    SonyBraviaCapabilities.forEach(capability => {
+      this.registerCapabilityListener(capability.name, value => {
+        try {
+          this.clearWarning();
 
-        return await SonyBraviaAndroidTvCommunicator.setDevicePowerState(this, this.data, value);
-      } catch (err) {
-        console.log(`${this.data.name} could not register onoff capability listener: `, err);
-      }
-    });
+          capability.function(this, this.data, value);
+        } catch (err) {
+          this.showWarning(err);
 
-    this.registerCapabilityListener('channel_up', async () => {
-      try {
-        console.log(`${this.data.name} turning channel up.`);
-
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'ChannelUp');
-      } catch (err) {
-        console.log(`${this.data.name} could not turn channel up: `, err);
-      }
-    });
-
-    this.registerCapabilityListener('channel_down', async () => {
-      try {
-        console.log(`${this.data.name} turning channel down.`);
-
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'ChannelDown');
-      } catch (err) {
-        console.log(`${this.data.name} could not turn volume down: `, err);
-      }
-    });
-
-    this.registerCapabilityListener('volume_up', async () => {
-      try {
-        console.log(`${this.data.name} turning volume up.`);
-
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'VolumeUp');
-      } catch (err) {
-        console.log(`${this.data.name} could not turn volume up: `, err);
-      }
-    });
-
-    this.registerCapabilityListener('volume_down', async () => {
-      try {
-        console.log(`${this.data.name} turning volume down.`);
-
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'VolumeDown');
-      } catch (err) {
-        console.log(`${this.data.name} could not turn volume down: `, err);
-      }
-    });
-
-    this.registerCapabilityListener('volume_mute', async value => {
-      try {
-        if (value) {
-          console.log(`${this.data.name} muting the sound.`);
-
-          return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'Mute');
+          console.log(`${this.data.name} capability listener could not be executed: `, err);
         }
-
-        return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, null, 'UnMute');
-      } catch (err) {
-        console.log(`${this.data.name} could not mute/unmute sound: `, err);
-      }
+      });
     });
   }
 
-  registerFlows() {
+  registerFlowListeners() {
     SonyBraviaFlowActions.forEach(flow => {
       try {
         const flowCard = new Homey.FlowCardAction(flow.action).register();
 
         flowCard.registerRunListener(async (args, state) => {
-          flow.parsedCommand = flow.command;
+          try {
+            this.clearWarning();
 
-          if (flow.command instanceof Function) {
-            flow.parsedCommand = flow.command(args, state)
+            flow.parsedCommand = flow.command;
+
+            if (flow.command instanceof Function) {
+              flow.parsedCommand = flow.command(args, state)
+            }
+
+            console.log(`${this.data.name} starting flow:  ${flow.action}  and sending command: `, flow.parsedCommand);
+
+            return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, flow.action, flow.parsedCommand);
+          } catch (err) {
+            this.showWarning(err);
+
+            console.log(`${this.data.name} flow command could not be executed: `, flow, err);
           }
-
-          console.log(`${this.data.name} starting flow:  ${flow.action}  and sending command: `, flow.parsedCommand);
-
-          await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, flow.action, flow.parsedCommand);
         });
       } catch (err) {
-        console.log(`${this.data.name} flow command could not be executed: `, flow, err);
+        console.log(`${this.data.name} flow command could not be registered: `, flow, err);
       }
     });
   }
@@ -178,11 +137,10 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
     try {
       await SonyBraviaAndroidTvCommunicator.getDeviceAvailability(this.data);
 
+      this.clearWarning();
       return this.setAvailable();
     } catch (err) {
-      if (err.code === 403) {
-        this.setWarning(`Authentication with ${this.data.name} failed, check pre-shared key settings.`);
-      }
+      this.showWarning(err);
 
       return this.setUnavailable();
     }
@@ -194,14 +152,25 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
       console.log(`${this.data.name} current power state: `, state);
 
-      this.setCapabilityValue('onoff', state === 'active' ? true : false);
+      this.clearWarning();
+      return this.setCapabilityValue('onoff', state === 'active' ? true : false);
     } catch (err) {
-      if (err.code === 403) {
-        this.setWarning(`Authentication with ${this.data.name} failed, check pre-shared key settings.`);
-      }
+      this.showWarning(err);
 
       this.setCapabilityValue('onoff', false);
     }
+  }
+
+  clearWarning() {
+    return this.unsetWarning();
+  }
+
+  showWarning(err) {
+    if (err.code === 403) {
+      return this.setWarning(Homey.__('errors.authentication'));
+    }
+
+    return this.setWarning(Homey.__('errors.unknown'));
   }
 }
 

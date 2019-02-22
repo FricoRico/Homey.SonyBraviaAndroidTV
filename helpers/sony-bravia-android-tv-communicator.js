@@ -12,7 +12,7 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
 
   async getDeviceAvailability(data) {
     try {
-      return await Fetch(`http://${data.settings.ip}/sony/system`, {
+      const response = await Fetch(`http://${data.settings.ip}/sony/system`, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -27,6 +27,14 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
           version: '1.0'
         })
       });
+
+      if (response.status !== 200) {
+        throw this.generateError(response);
+      }
+
+      const parsedResponse = (await response.json()).result.shift();
+
+      return parsedResponse;
     } catch (err) {
       console.error(`An error occured fetching ${data.name} availability: `, err);
       throw err;
@@ -50,6 +58,10 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
           version: '1.0'
         })
       });
+
+      if (response.status !== 200) {
+        throw this.generateError(response);
+      }
 
       const parsedResponse = (await response.json()).result.shift();
 
@@ -93,7 +105,7 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
         new Homey.FlowCardTriggerDevice(action).register().trigger(device, { token: command });
       }
 
-      return await Fetch(`http://${data.settings.ip}/sony/IRCC`, {
+      const response = await Fetch(`http://${data.settings.ip}/sony/IRCC`, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -103,10 +115,23 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
         },
         body: this.generateCommandRequest(RemoteControlCodes[command])
       });
+
+      if (response.status !== 200) {
+        throw this.generateError(response);
+      }
+
+      return response;
     } catch (err) {
       console.error(`An error occured sending command to ${data.name}: `, err);
       throw err;
     }
+  }
+
+  generateError(err) {
+    const error = new Error(err.statusText);
+    error.code = err.status;
+
+    return error;
   }
 
   generateCommandRequest(code) {

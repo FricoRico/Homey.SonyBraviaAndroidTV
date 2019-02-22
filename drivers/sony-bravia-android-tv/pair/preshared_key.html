@@ -1,24 +1,24 @@
 <main class="hy-tmpl-preshared-key">
   <div class="hy-tmpl-preshared-key-image"></div>
   <div class="hy-tmpl-preshared-key-row">
-    <p><i>The pre-shared key is used to authenticate with your Sony BRAVIA Android TV over your local network. You need
-        to set it up before you can continue with adding your television. If you need help see the <b>Setting up a
-          pre-shared key</b> button below.</i></p>
+    <p data-i18n="preshared_key.intro"></p>
   </div>
   <form class="hy-tmpl-preshared-key-form">
     <div class="hy-tmpl-preshared-key-row">
-      <label class="hy-label" for="preshared_key">Pre-shared key:</p>
+      <label class="hy-label" for="preshared_key" data-i18n="preshared_key.inputs.preshared_key.label"></label>
     </div>
     <div class="hy-tmpl-preshared-key-row">
-      <input class="hy-input-text" type="password" id="preshared_key" name="psk" placeholder="Pre-shared key"
-        required />
+      <input class="hy-input-text" type="password" id="preshared_key" name="psk"
+        data-i18n="[placeholder]preshared_key.inputs.preshared_key.placeholder" required />
     </div>
     <div class="hy-tmpl-preshared-key-row">
-      <button class="hy-button hy-button-primary hy-button-fill" type="submit">Done</button>
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit"
+        data-i18n="preshared_key.buttons.done"></button>
     </div>
     <div class="hy-tmpl-preshared-key-row">
       <button class="hy-button hy-button-text-only" type="button"
-        onclick="sonyBraviaAndroidTvPresharedKey.onClickInstructions()">Setting up a pre-shared key</button>
+        onclick="sonyBraviaAndroidTvPresharedKey.onClickInstructions()"
+        data-i18n="preshared_key.buttons.instructions"></button>
     </div>
   </form>
 </main>
@@ -26,14 +26,16 @@
 <script type="text/javascript">
   class SonyBraviaAndroidTvPresharedKey {
     constructor() {
+      Homey.setTitle(Homey.__('preshared_key.titles.no_device'));
+
       if (this.device) {
-        Homey.setTitle(`Setup PSK for ${this.device.name}`);
+        Homey.setTitle(Homey.__('preshared_key.titles.with_device', { device: this.device.name }));
       }
 
       Homey.getViewStoreValue('add_devices', 'devices', (err, device) => {
         this.device = device.shift();
 
-        Homey.setTitle(`Setup PSK for ${this.device.name}`);
+        Homey.setTitle(Homey.__('preshared_key.titles.with_device', { device: this.device.name }));
       })
 
       const form = document.querySelector('form');
@@ -44,7 +46,6 @@
       e.preventDefault();
 
       const formData = new FormData(e.target);
-      const presharedKey = document.getElementById('preshared_key');
 
       device.settings.psk = formData.get('psk');
 
@@ -52,7 +53,7 @@
       Homey.emit('preshared_key', device, (err, device) => {
         if (err) {
           Homey.hideLoadingOverlay();
-          return Homey.alert('Pre-shared key is invalid, check television settings.');
+          return Homey.alert(Homey.__("errors.preshared_key"));
         }
 
         Homey.createDevice(device, () => {
@@ -62,7 +63,9 @@
     }
 
     onClickInstructions(e) {
-      Homey.showView('instructions');
+      Homey.setViewStoreValue('instructions', 'previous_view', 'preshared_key', (err) => {
+        Homey.showView('instructions');
+      });
     }
   }
 
