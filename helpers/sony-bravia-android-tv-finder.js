@@ -56,11 +56,11 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
 
   validateDeviceHeaders(headers) {
     if (headers.LOCATION.indexOf('sony') <= 0) {
-      return null;
+      return;
     }
 
     const ipAddress = headers.LOCATION.match(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/).shift();
-    console.log('Sony BRAVIA Android TV found on: ', ipAddress);
+    this.log('Sony BRAVIA Android TV found on: ', ipAddress);
 
     const device = this.populateDeviceData(null, headers.USN, ipAddress, null);
 
@@ -126,10 +126,10 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
       const parsedResponse = (await response.json()).result.shift();
 
       if (parsedResponse.modelName.substring(2, 0) !== 'KD') {
-        return null;
+        return;
       }
 
-      console.log('Sony BRAVIA Android TV basic details found: ', parsedResponse);
+      this.log('Sony BRAVIA Android TV basic details found: ', parsedResponse);
 
       const name = device.name === BaseName ? `Sony ${parsedResponse.productName} ${parsedResponse.modelName}` : device.name;
 
@@ -140,7 +140,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
         }
       });
     } catch (err) {
-      console.error('An error occured fetching basic device details: ', err);
+      this.error('An error occured fetching basic device details: ', err);
       throw err;
     }
   }
@@ -165,7 +165,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
 
       const parsedResponse = (await response.json()).result.shift();
 
-      console.log('Sony BRAVIA Android TV extended details found: ', parsedResponse);
+      this.log('Sony BRAVIA Android TV extended details found: ', parsedResponse);
 
       const macAddress = device.settings.macAddress ? device.settings.macAddress : parsedResponse.macAddr;
 
@@ -186,7 +186,7 @@ class SonyBraviaAndroidTvFinder extends Homey.SimpleClass {
         }
       });
     } catch (err) {
-      console.error('An error occured fetching extended device details: ', err);
+      this.error('An error occured fetching extended device details: ', err);
       throw err;
     }
   }
