@@ -6,6 +6,7 @@ const mock = require('mock-require');
 mock('homey', require('@milanzor/homey-mock'));
 
 const Homey = require('homey');
+const Fetch = require('node-fetch');
 const SsdpClient = require('node-ssdp').Client;
 const SonyBraviaAndroidTvFinder = require('../../helpers/sony-bravia-android-tv-finder');
 
@@ -173,16 +174,143 @@ describe('SonyBraviaAndroidTvFinder', () => {
   });
 
   it('Should make a request to the device when calling fetchBasicDeviceDetails', () => {
-    const server = sandbox.useFakeServer();
-    server.respondWith('POST', 'http://192.168.1.1/sony/system', [200, { 'Content-Type': 'application/json' }, JSON.stringify([{ name: 'Fake Device' }])]);
-    server.respondImmediately = true;
+    const response = {
+      json: () => Promise.resolve({ result: [{ modelName: 'Fake Device' }] })
+    };
+    const stub = sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
 
-    SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ settings: { ip: '192.168.1.1' } });
+    SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678' } });
 
-    console.log(server.requests);
+    assert.equal(stub.called, true);
+  });
 
-    assert.equal(server.requests.length > 0, true);
+  it('Should early return if the modelName does not contain `KD` thus not being a TV', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ modelName: 'Fake Device' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
 
-  })
+    assert.equal(await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678' } }), undefined);
+  });
+
+  it('Should resolve the device name if no name was given and name is the default name', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ productName: 'BRAVIA', modelName: 'KD-65A1' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    const device = await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ name: 'Sony BRAVIA Android TV', settings: { ip: '192.168.1.1', psk: '12345678' } });
+
+    assert.equal(device.name, 'Sony BRAVIA KD-65A1');
+  });
+
+  it('Should use the given name instead of resolved name, if a name was given', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ productName: 'BRAVIA', modelName: 'KD-65A1' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    const device = await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ name: 'Fake Device', settings: { ip: '192.168.1.1', psk: '12345678' } });
+
+    assert.equal(device.name, 'Fake Device');
+  });
+
+  it('Should deep merge the device data with the newly resolved device data', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ productName: 'BRAVIA', modelName: 'KD-65A1' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    assert.deepEqual(await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ name: 'Sony BRAVIA Android TV', settings: { ip: '192.168.1.1', psk: '12345678' } }), {
+      name: 'Sony BRAVIA KD-65A1',
+      data: {
+        valid: true
+      },
+      settings: {
+        ip: '192.168.1.1',
+        psk: '12345678'
+      }
+    });
+  });
+
+  it('Should re-throw error if something goes wrong in the fetchBasicDeviceDetails function', async () => {
+    sandbox.stub(Fetch, 'Promise').throws(new Error('Fake error'));
+
+    try {
+      await SonyBraviaAndroidTvFinder.fetchBasicDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678' } });
+    } catch (err) {
+      assert.equal(err.message, 'Fake error');
+    }
+  });
+
+  it('Should make a request to the device when calling fetchExtendDeviceDetails', () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ product: 'Fake Device' }] })
+    };
+    const stub = sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    SonyBraviaAndroidTvFinder.fetchExtendDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678' } });
+
+    assert.equal(stub.called, true);
+  });
+
+  it('Should resolve the device MAC address when none was defined beforehand', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ macAddr: '12:34:56:78:90' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    const device = await SonyBraviaAndroidTvFinder.fetchExtendDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678', macAddress: '' } });
+
+    assert.equal(device.settings.macAddress, '12:34:56:78:90');
+  });
+
+  it('Should use the given MAC address instead of resolved MAC address, if a name was given', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ macAddr: '12:34:56:78:90' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    const device = await SonyBraviaAndroidTvFinder.fetchExtendDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678', macAddress: '11:11:11:11:11' } });
+
+    assert.equal(device.settings.macAddress, '11:11:11:11:11');
+  });
+
+  it('Should deep merge the device data with the newly resolved extended device data', async () => {
+    const response = {
+      json: () => Promise.resolve({ result: [{ product: 'BRAVIA TV', region: 'NL', language: 'en', model: 'KD-65A1', serial: '12345678', generation: '6', name: 'Sony BRAVIA', area: 'NL', cid: '12345678', macAddr: '12:34:56:78:90' }] })
+    };
+    sandbox.stub(Fetch, 'Promise').returns(Promise.resolve(response));
+
+    assert.deepEqual(await SonyBraviaAndroidTvFinder.fetchExtendDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678' } }), {
+      data: {
+        name: 'Sony BRAVIA KD-65A1',
+        product: 'BRAVIA TV',
+        region: 'NL',
+        language: 'en',
+        model: 'KD-65A1',
+        serial: '12345678',
+        generation: '6',
+        name: 'Sony BRAVIA',
+        area: 'NL',
+        cid: '12345678'
+      },
+      settings: {
+        ip: '192.168.1.1',
+        psk: '12345678',
+        macAddress: '12:34:56:78:90'
+      }
+    });
+  });
+
+  it('Should re-throw error if something goes wrong in the fetchExtendDeviceDetails function', async () => {
+    sandbox.stub(Fetch, 'Promise').throws(new Error('Fake error'));
+
+    try {
+      await SonyBraviaAndroidTvFinder.fetchExtendDeviceDetails({ settings: { ip: '192.168.1.1', psk: '12345678' } });
+    } catch (err) {
+      assert.equal(err.message, 'Fake error');
+    }
+  });
 
 });
