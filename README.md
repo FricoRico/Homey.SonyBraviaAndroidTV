@@ -76,6 +76,10 @@ Future releases will support media playback flow actions through a third-party A
 
 ## Change Log:
 
+### v1.0.2
+- Fixes cases where capabilities timeout, because asynchronous functions are never resolved.
+- Should now successfully trigger `Turned on` and `Turned off` flow triggers, also related to asynchronous functions.
+
 ### v1.0.1
 - Added node_modules to the repository because Homey does not automatically restore them.
 

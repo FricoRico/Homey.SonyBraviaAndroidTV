@@ -72,11 +72,11 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
   async registerCapabilityListeners() {
     SonyBraviaCapabilities.forEach(capability => {
-      this.registerCapabilityListener(capability.name, value => {
+      this.registerCapabilityListener(capability.name, async value => {
         try {
           this.clearWarning();
 
-          capability.function(this, this.data, value);
+          return await capability.function(this, this.data, value);
         } catch (err) {
           this.showWarning(err);
 
