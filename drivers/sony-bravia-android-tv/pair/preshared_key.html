@@ -1,0 +1,112 @@
+<main class="hy-tmpl-preshared-key">
+  <div class="hy-tmpl-preshared-key-image"></div>
+  <div class="hy-tmpl-preshared-key-row">
+    <p data-i18n="preshared_key.intro"></p>
+  </div>
+  <form class="hy-tmpl-preshared-key-form">
+    <div class="hy-tmpl-preshared-key-row">
+      <label class="hy-label" for="preshared_key" data-i18n="preshared_key.inputs.preshared_key.label"></label>
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <input class="hy-input-text" type="password" id="preshared_key" name="psk"
+        data-i18n="[placeholder]preshared_key.inputs.preshared_key.placeholder" required />
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <button class="hy-button hy-button-primary hy-button-fill" type="submit"
+        data-i18n="preshared_key.buttons.done"></button>
+    </div>
+    <div class="hy-tmpl-preshared-key-row">
+      <button class="hy-button hy-button-text-only" type="button"
+        onclick="sonyBraviaAndroidTvPresharedKey.onClickInstructions()"
+        data-i18n="preshared_key.buttons.instructions"></button>
+    </div>
+  </form>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvPresharedKey {
+    constructor() {
+      Homey.setTitle(Homey.__('preshared_key.titles.no_device'));
+
+      if (this.device) {
+        Homey.setTitle(Homey.__('preshared_key.titles.with_device', { device: this.device.name }));
+      }
+
+      Homey.getViewStoreValue('add_devices', 'devices', (err, device) => {
+        this.device = device.shift();
+
+        Homey.setTitle(Homey.__('preshared_key.titles.with_device', { device: this.device.name }));
+      })
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', e => this.onSubmit(e, this.device));
+    }
+
+    onSubmit(e, device) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+
+      device.settings.psk = formData.get('psk');
+
+      Homey.showLoadingOverlay();
+      Homey.emit('preshared_key', device, (err, device) => {
+        if (err) {
+          Homey.hideLoadingOverlay();
+          return Homey.alert(Homey.__("errors.preshared_key"));
+        }
+
+        Homey.createDevice(device, () => {
+          Homey.done();
+        });
+      });
+    }
+
+    onClickInstructions(e) {
+      Homey.setViewStoreValue('instructions', 'previous_view', 'preshared_key', (err) => {
+        Homey.showView('instructions');
+      });
+    }
+  }
+
+  const sonyBraviaAndroidTvPresharedKey = new SonyBraviaAndroidTvPresharedKey();
+</script>
+
+<style>
+  /* Workaround for views without buttons */
+  #hy-views>.hy-view {
+    overflow: initial !important;
+  }
+
+  .hy-tmpl-preshared-key {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-preshared-key-image {
+    display: block;
+    width: 25vw;
+    height: 25vw;
+    margin: 20vw auto;
+    background-image: url('assets/images/locked-icon.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hy-tmpl-preshared-key-form {
+    width: 100%;
+  }
+
+  .hy-tmpl-preshared-key-row {
+    margin-bottom: 1em;
+  }
+
+  .hy-button.hy-button-text-only {
+    width: 100%;
+    background: transparent;
+  }
+
+</style>

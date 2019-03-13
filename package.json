@@ -1,0 +1,40 @@
+{
+  "name": "homey-sonybraviaandroidtv",
+  "version": "1.0.0",
+  "description": "Adds support for Sony Bravia Android TV's.",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha ./test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FricoRico/Homey.SonyBraviaAndroidTV.git"
+  },
+  "keywords": [
+    "Homey",
+    "Sony",
+    "Bravia",
+    "Android",
+    "TV"
+  ],
+  "author": "Ricardo Snoek",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/FricoRico/Homey.SonyBraviaAndroidTV/issues"
+  },
+  "homepage": "https://github.com/FricoRico/Homey.SonyBraviaAndroidTV#readme",
+  "dependencies": {
+    "async": "^2.6.1",
+    "deepmerge": "^3.1.0",
+    "ip": "^1.1.5",
+    "node-fetch": "^2.3.0",
+    "node-ssdp": "^4.0.0"
+  },
+  "devDependencies": {
+    "@milanzor/homey-mock": "^1.1.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.1",
+    "mock-require": "^3.0.3",
+    "sinon": "^7.2.4"
+  }
+}

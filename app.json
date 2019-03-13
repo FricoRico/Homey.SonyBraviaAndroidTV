@@ -1,0 +1,569 @@
+{
+  "id": "name.ricardoismy.sonybraviaandroidtv",
+  "version": "1.0.2",
+  "compatibility": ">=1.5.0",
+  "sdk": 2,
+  "name": {
+    "en": "Sony BRAVIA Android TV"
+  },
+  "description": {
+    "en": "Adds support for Sony BRAVIA Android TV's."
+  },
+  "category": [
+    "video"
+  ],
+  "permissions": [
+    "homey:manager:speech-input",
+    "homey:manager:speech-output"
+  ],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Ricardo Snoek",
+    "email": "me@ricardoismy.name"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Ricardo Snoek",
+        "email": "me@ricardoismy.name"
+      },
+      {
+        "name": "Jorden Chamid (legacy)",
+        "email": "info@chamidmedia.nl"
+      },
+      {
+        "name": "Marco Frijmann (legacy)",
+        "email": "info@frijmann.nl"
+      }
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/FricoRico/Homey.SonyBraviaAndroidTV/issues"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "ricardosnoek"
+      }
+    }
+  },
+  "drivers": [
+    {
+      "id": "sony-bravia-android-tv",
+      "name": {
+        "en": "Sony BRAVIA Android TV"
+      },
+      "images": {
+        "large": "drivers/sony-bravia-android-tv/assets/images/large.png",
+        "small": "drivers/sony-bravia-android-tv/assets/images/small.png"
+      },
+      "class": "tv",
+      "capabilities": [
+        "onoff",
+        "channel_up",
+        "channel_down",
+        "volume_up",
+        "volume_down",
+        "volume_mute"
+      ],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "options": {
+            "singular": true
+          },
+          "navigation": {
+            "next": "preshared_key"
+          }
+        },
+        {
+          "id": "preshared_key"
+        },
+        {
+          "id": "instructions"
+        },
+        {
+          "id": "not_found"
+        },
+        {
+          "id": "manual_input"
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings",
+            "nl": "Algemene instellingen"
+          },
+          "children": [
+            {
+              "id": "ip",
+              "type": "text",
+              "label": {
+                "en": "IP address",
+                "nl": "IP adres"
+              },
+              "value": "0.0.0.0"
+            },
+            {
+              "id": "psk",
+              "type": "password",
+              "label": {
+                "en": "Pre-shared key",
+                "nl": "Pre-shared key"
+              },
+              "value": ""
+            },
+            {
+              "id": "polling",
+              "type": "number",
+              "label": {
+                "en": "Device polling interval in minutes",
+                "nl": "Apparaat polling interval in minuten"
+              },
+              "value": 5,
+              "min": 1,
+              "max": 10,
+              "hint": {
+                "en": "Lowering this value improves automation responses when regular remote is used, but also increases load on your Homey.",
+                "nl": "Een lagere waarde zorgt voor een snellere terugkoppeling van de televisie wanneer de afstandbediening wordt gebruikt, maar is zwaarder voor de Homey om te verwerken."
+              }
+            },
+            {
+              "id": "macAddress",
+              "type": "text",
+              "label": {
+                "en": "MAC address",
+                "nl": "MAC adres"
+              },
+              "value": "00:00:00:00:00:00"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "ChannelUp",
+        "title": {
+          "en": "Channel up",
+          "nl": "Kanaal omhoog"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "ChannelDown",
+        "title": {
+          "en": "Channel down",
+          "nl": "Kanaal omlaag"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "VolumeUp",
+        "title": {
+          "en": "Volume up",
+          "nl": "Volume omhoog"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "VolumeDown",
+        "title": {
+          "en": "Volume down",
+          "nl": "Volume omlaag"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Mute",
+        "title": {
+          "en": "Muted",
+          "nl": "Geluid ingeschakelt"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "UnMute",
+        "title": {
+          "en": "Unmuted",
+          "nl": "Geluid uitgeschakelt"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Netflix",
+        "title": {
+          "en": "Netflix started",
+          "nl": "Netflix geopend"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "SetInput",
+        "title": {
+          "en": "HDMI input changed",
+          "nl": "HDMI ingang gewijzigd"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "token",
+            "type": "string",
+            "title": {
+              "en": "Selected input",
+              "nl": "Geselecteerde ingang"
+            },
+            "example": {
+              "en": "Hdmi1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SetNumber",
+        "title": {
+          "en": "Numpad input received",
+          "nl": "Numerieke invoer ontvangen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "token",
+            "type": "string",
+            "title": {
+              "en": "Selected digit",
+              "nl": "Geselecteerde nummer"
+            },
+            "example": {
+              "en": "Num0"
+            }
+          }
+        ]
+      },
+      {
+        "id": "Options",
+        "title": {
+          "en": "Options opened",
+          "nl": "Opties geopend"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "EPG",
+        "title": {
+          "en": "Electronic Program Guide opened",
+          "nl": "Electronic Program Guide geopend"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Enter",
+        "title": {
+          "en": "Enter command received",
+          "nl": "Enter commando ontvangen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "Netflix",
+        "title": {
+          "en": "Start Netflix",
+          "nl": "Open Netflix"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer televisie"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "SetInput",
+        "title": {
+          "en": "Set HDMI input",
+          "nl": "Selecteer HDMI ingang"
+        },
+        "args": [
+          {
+            "name": "Input",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "Hdmi1",
+                "label": {
+                  "en": "HDMI 1"
+                }
+              },
+              {
+                "id": "Hdmi2",
+                "label": {
+                  "en": "HDMI 2"
+                }
+              },
+              {
+                "id": "Hdmi3",
+                "label": {
+                  "en": "HDMI 3"
+                }
+              },
+              {
+                "id": "Hdmi4",
+                "label": {
+                  "en": "HDMI 4"
+                }
+              }
+            ]
+          },
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer televisie"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Options",
+        "title": {
+          "en": "Open Options",
+          "nl": "Opties openen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer televisie"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "EPG",
+        "title": {
+          "en": "Open Electronic Program Guide",
+          "nl": "Elektronische Programma Gids openen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer televisie"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Enter",
+        "title": {
+          "en": "Send Enter command",
+          "nl": "Enter commando versturen"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer televisie"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "SetNumber",
+        "title": {
+          "en": "Numpad input",
+          "nl": "Numerieke invoer"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select television",
+              "nl": "Selecteer televisie"
+            },
+            "filter": "driver_id=sony-bravia-android-tv"
+          },
+          {
+            "name": "Number",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "Num1",
+                "label": {
+                  "en": "Numpad 1",
+                  "nl": "Nummer 1"
+                }
+              },
+              {
+                "id": "Num2",
+                "label": {
+                  "en": "Numpad 2",
+                  "nl": "Nummer 2"
+                }
+              },
+              {
+                "id": "Num3",
+                "label": {
+                  "en": "Numpad 3",
+                  "nl": "Nummer 3"
+                }
+              },
+              {
+                "id": "Num4",
+                "label": {
+                  "en": "Numpad 4",
+                  "nl": "Nummer 4"
+                }
+              },
+              {
+                "id": "Num5",
+                "label": {
+                  "en": "Numpad 5",
+                  "nl": "Nummer 5"
+                }
+              },
+              {
+                "id": "Num6",
+                "label": {
+                  "en": "Numpad 6",
+                  "nl": "Nummer 6"
+                }
+              },
+              {
+                "id": "Num7",
+                "label": {
+                  "en": "Numpad 7",
+                  "nl": "Nummer 7"
+                }
+              },
+              {
+                "id": "Num8",
+                "label": {
+                  "en": "Numpad 8",
+                  "nl": "Nummer 8"
+                }
+              },
+              {
+                "id": "Num9",
+                "label": {
+                  "en": "Numpad 9",
+                  "nl": "Nummer 9"
+                }
+              },
+              {
+                "id": "Num0",
+                "label": {
+                  "en": "Numpad 0",
+                  "nl": "Nummer 0"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

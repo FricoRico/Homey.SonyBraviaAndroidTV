@@ -1,0 +1,70 @@
+<main class="hy-tmpl-not-found">
+  <div class="hy-tmpl-not-found-image"></div>
+  <div class="hy-tmpl-not-found-row">
+    <p data-i18n="not_found.intro"></p>
+  </div>
+  <div class="hy-tmpl-preshared-key-row">
+    <button class="hy-button hy-button-primary hy-button-fill" type="button"
+      onclick="sonyBraviaAndroidTvNotFound.onClickManualInput()" data-i18n="not_found.buttons.manual_input"></button>
+  </div>
+  <div class="hy-tmpl-preshared-key-row">
+    <button class="hy-button hy-button-text-only" type="button"
+      onclick="sonyBraviaAndroidTvNotFound.onClickInstructions()" data-i18n="not_found.buttons.instructions"></button>
+  </div>
+</main>
+
+<script type="text/javascript">
+  class SonyBraviaAndroidTvNotFound {
+    constructor() {
+      Homey.setTitle(Homey.__('not_found.title'));
+    }
+
+    onClickManualInput(e) {
+      Homey.showView('manual_input');
+    }
+
+    onClickInstructions(e) {
+      Homey.setViewStoreValue('instructions', 'previous_view', 'manual_input', (err) => {
+        Homey.showView('instructions');
+      });
+    }
+  }
+
+  const sonyBraviaAndroidTvNotFound = new SonyBraviaAndroidTvNotFound();
+</script>
+
+<style>
+  /* Workaround for views without buttons */
+  #hy-views>.hy-view {
+    overflow: initial !important;
+  }
+
+  .hy-tmpl-not-found {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hy-tmpl-not-found-image {
+    display: block;
+    position: relative;
+    width: 25vw;
+    height: 25vw;
+    margin: 20vw auto;
+    background-image: url('assets/images/not-found-icon.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hy-tmpl-not-found-row {
+    margin-bottom: 1em;
+  }
+
+  .hy-button.hy-button-text-only {
+    width: 100%;
+    background: transparent;
+  }
+
+</style>
