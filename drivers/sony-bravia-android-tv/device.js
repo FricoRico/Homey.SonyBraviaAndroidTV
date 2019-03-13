@@ -165,7 +165,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       return this.setUnavailable(Homey.__('errors.authentication'));
     }
 
-    return this.setUnavailable(Homey.__('errors.unknown'));
+    return this.setWarning(Homey.__('errors.unknown'));
   }
 }
 
