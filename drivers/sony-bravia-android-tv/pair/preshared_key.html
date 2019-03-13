@@ -73,6 +73,11 @@
 </script>
 
 <style>
+  /* Workaround for views without buttons */
+  #hy-views>.hy-view {
+    overflow: initial !important;
+  }
+
   .hy-tmpl-preshared-key {
     min-height: 100%;
     display: flex;
@@ -82,7 +87,6 @@
 
   .hy-tmpl-preshared-key-image {
     display: block;
-    position: relative;
     width: 25vw;
     height: 25vw;
     margin: 20vw auto;
@@ -93,7 +97,6 @@
   }
 
   .hy-tmpl-preshared-key-form {
-    position: relative;
     width: 100%;
   }
 
