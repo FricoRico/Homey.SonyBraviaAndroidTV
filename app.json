@@ -146,15 +146,6 @@
                 "nl": "MAC adres"
               },
               "value": "00:00:00:00:00:00"
-            },
-            {
-              "id": "useWOL",
-              "type": "checkbox",
-              "label": {
-                "en": "Enable Wake-on-LAN",
-                "nl": "Gebruik Wake-on-LAN"
-              },
-              "value": false
             }
           ]
         }
