@@ -40,6 +40,8 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
       this.registerTasks();
     }
 
+    this.clearWarning();
+
     callback(null, newSettings);
   }
 
@@ -74,8 +76,6 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
     SonyBraviaCapabilities.forEach(capability => {
       this.registerCapabilityListener(capability.name, async value => {
         try {
-          this.clearWarning();
-
           return await capability.function(this, this.data, value);
         } catch (err) {
           this.showWarning(err);
@@ -93,8 +93,6 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
         flowCard.registerRunListener(async (args, state) => {
           try {
-            this.clearWarning();
-
             flow.parsedCommand = flow.command;
 
             if (flow.command instanceof Function) {
@@ -136,8 +134,6 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   async checkDeviceAvailability() {
     try {
       await SonyBraviaAndroidTvCommunicator.getDeviceAvailability(this.data);
-
-      this.clearWarning();
       return this.setAvailable();
     } catch (err) {
       this.showWarning(err);
@@ -152,7 +148,6 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
 
       console.log(`${this.data.name} current power state: `, state);
 
-      this.clearWarning();
       return this.setCapabilityValue('onoff', state === 'active' ? true : false);
     } catch (err) {
       this.showWarning(err);
@@ -162,12 +157,12 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   }
 
   clearWarning() {
-    return this.unsetWarning();
+    return this.setAvailable();
   }
 
   showWarning(err) {
     if (err.code === 403) {
-      return this.setWarning(Homey.__('errors.authentication'));
+      return this.setUnavailable(Homey.__('errors.authentication'));
     }
 
     return this.setWarning(Homey.__('errors.unknown'));

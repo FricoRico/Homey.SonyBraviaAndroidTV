@@ -29,8 +29,7 @@
     "deepmerge": "^3.1.0",
     "ip": "^1.1.5",
     "node-fetch": "^2.3.0",
-    "node-ssdp": "^4.0.0",
-    "wol": "^1.0.5"
+    "node-ssdp": "^4.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
