@@ -1,7 +1,6 @@
 const Homey = require('homey');
 
 const Fetch = require('node-fetch');
-const WakeOnLan = require('wol');
 
 const RemoteControlCodes = require('../../definitions/remote-control-codes')
 
@@ -77,26 +76,7 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
       return await this.sendCommand(device, data, null, 'PowerOff');
     }
 
-    if (!data.settings.useWOL) {
-      return await this.sendCommand(device, data, null, 'PowerOn');
-    }
-
-    return await this.sendWakeOnLanCommand(data);
-  }
-
-  async sendWakeOnLanCommand(data) {
-    try {
-      return await WakeOnLan.wake(data.settings.macAddress, (err, result) => {
-        if (err) {
-          throw err;
-        }
-
-        return result;
-      });
-    } catch (err) {
-      console.error(`An error occured trying to wake ${data.name} with wake-on-lan command: `, err);
-      throw err;
-    }
+    return await this.sendCommand(device, data, null, 'PowerOn');
   }
 
   async sendCommand(device, data, action, command) {
