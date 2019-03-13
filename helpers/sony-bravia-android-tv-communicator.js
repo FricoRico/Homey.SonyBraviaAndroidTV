@@ -1,7 +1,7 @@
 const Homey = require('homey');
 
 const Fetch = require('node-fetch');
-const WakeOnLan = require('wol');
+const WakeOnLan = require('wake_on_lan');
 
 const RemoteControlCodes = require('../../definitions/remote-control-codes')
 
