@@ -1,7 +1,7 @@
 {
   "errors": {
     "authentication": "Authenticatie mislukt, controleer pre-shared key instelligen.",
-    "unkown": "Onbekede fout, probeer het nog eens.",
+    "unkown": "Onbekede fout, controleer televisie instellingen.",
     "connection": "Er kon geen verbinding worden gemaakt.",
     "preshared_key": "Pre-shared key is incorrect, controleer televisie instellingen.",
     "previous_view": "De vorige view kon niet worden geladen."
