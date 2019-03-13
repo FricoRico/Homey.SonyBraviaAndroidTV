@@ -76,6 +76,9 @@ Future releases will support media playback flow actions through a third-party A
 
 ## Change Log:
 
+### v1.0.4
+- Releasing app to the public
+
 ### v1.0.3
 - Added custom triggers for default `Channel up`, `Channel down`, `Volume up`, `Volume down`, `Muted`, `Unmuted`
 - Made pairing screens full viewport height
