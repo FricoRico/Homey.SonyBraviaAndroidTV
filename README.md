@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/FricoRico/Homey.SonyBraviaAndroidTV.svg?branch=develop)](https://travis-ci.com/FricoRico/Homey.SonyBraviaAndroidTV)
+
 # Sony BRAVIA Android TV
 This app adds support for Sony BRAVIA Android TV devices in Homey. For usage instructions, please follow the in-app instructions page available during pairing and setup.
 

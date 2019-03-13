@@ -4,7 +4,7 @@
   "description": "Adds support for Sony Bravia Android TV's.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,12 @@
     "ip": "^1.1.5",
     "node-fetch": "^2.3.0",
     "node-ssdp": "^4.0.0"
+  },
+  "devDependencies": {
+    "@milanzor/homey-mock": "^1.1.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.1",
+    "mock-require": "^3.0.3",
+    "sinon": "^7.2.4"
   }
 }
