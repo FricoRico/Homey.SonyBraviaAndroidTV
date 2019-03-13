@@ -155,6 +155,90 @@
   "flow": {
     "triggers": [
       {
+        "id": "ChannelUp",
+        "title": {
+          "en": "Channel up",
+          "nl": "Kanaal omhoog"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "ChannelDown",
+        "title": {
+          "en": "Channel down",
+          "nl": "Kanaal omlaag"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "VolumeUp",
+        "title": {
+          "en": "Volume up",
+          "nl": "Volume omhoog"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "VolumeDown",
+        "title": {
+          "en": "Volume down",
+          "nl": "Volume omlaag"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "Mute",
+        "title": {
+          "en": "Muted",
+          "nl": "Geluid ingeschakelt"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
+        "id": "UnMute",
+        "title": {
+          "en": "Unmuted",
+          "nl": "Geluid uitgeschakelt"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=sony-bravia-android-tv"
+          }
+        ]
+      },
+      {
         "id": "Netflix",
         "title": {
           "en": "Netflix started",

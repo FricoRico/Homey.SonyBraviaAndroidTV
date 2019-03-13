@@ -14,7 +14,7 @@ module.exports = [
     function: (device, data, _value) => {
       console.log(`${data.name} turning channel up.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, null, 'ChannelUp');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'ChannelUp', 'ChannelUp');
     }
   },
   {
@@ -22,7 +22,7 @@ module.exports = [
     function: (device, data, _value) => {
       console.log(`${data.name} turning channel down.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, null, 'ChannelDown');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'ChannelDown', 'ChannelDown');
     }
   },
   {
@@ -30,7 +30,7 @@ module.exports = [
     function: (device, data, _value) => {
       console.log(`${data.name} turning volume up.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, null, 'VolumeUp');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'VolumeUp', 'VolumeUp');
     }
   },
   {
@@ -38,7 +38,7 @@ module.exports = [
     function: (device, data, _value) => {
       console.log(`${data.name} turning volume down.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, null, 'VolumeDown');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'VolumeDown', 'VolumeDown');
     }
   },
   {
@@ -47,12 +47,12 @@ module.exports = [
       if (value) {
         console.log(`${data.name} muting the sound.`);
 
-        return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, null, 'Mute');
+        return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'Mute', 'Mute');
       }
 
       console.log(`${data.name} unmuting the sound.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, null, 'UnMute');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'UnMute', 'UnMute');
     }
   }
 ]
