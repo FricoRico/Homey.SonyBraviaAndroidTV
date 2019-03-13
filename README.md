@@ -77,6 +77,12 @@ Future releases will support media playback flow actions through a third-party A
 ## Change Log:
 
 ### v1.0.2
+- Added custom triggers for default `Channel up`, `Channel down`, `Volume up`, `Volume down`, `Muted`, `Unmuted`
+- Made pairing screens full viewport height
+- Removed Wake-on-LAN setting, as it did not function properly and can't be fixed at this moment
+- Added `setUnavailable` message when authentication with the TV fails
+
+### v1.0.2
 - Fixes cases where capabilities timeout, because asynchronous functions are never resolved.
 - Should now successfully trigger `Turned on` and `Turned off` flow triggers, also related to asynchronous functions.
 
