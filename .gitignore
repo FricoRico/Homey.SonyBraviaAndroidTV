@@ -55,3 +55,6 @@ typings/
 
 # next.js build output
 .next
+
+# NPM dependency directory
+node_modules
