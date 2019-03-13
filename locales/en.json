@@ -1,7 +1,7 @@
 {
   "errors": {
     "authentication": "Authentication failed, check pre-shared key settings.",
-    "unkown": "An unknown error occured, please try again.",
+    "unkown": "An unknown error occured, check television settings.",
     "connection": "Connection could not be estabished.",
     "preshared_key": "Pre-shared key is invalid, check television settings.",
     "previous_view": "Previous view could not be loaded."
