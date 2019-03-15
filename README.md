@@ -76,7 +76,10 @@ Future releases will support media playback flow actions through a third-party A
 
 ## Change Log:
 
-### v1.0.2
+### v1.0.4
+- Releasing app to the public
+
+### v1.0.3
 - Added custom triggers for default `Channel up`, `Channel down`, `Volume up`, `Volume down`, `Muted`, `Unmuted`
 - Made pairing screens full viewport height
 - Removed Wake-on-LAN setting, as it did not function properly and can't be fixed at this moment
