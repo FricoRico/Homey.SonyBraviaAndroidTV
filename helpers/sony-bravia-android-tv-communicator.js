@@ -1,6 +1,6 @@
 const Homey = require('homey');
 
-const Fetch = require('node-fetch');
+const Fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const RemoteControlCodes = require('../../definitions/remote-control-codes')
 
@@ -9,13 +9,15 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
     super();
   }
 
-  async getDeviceAvailability(data) {
+  async getDeviceAvailability(device) {
+    const settings = device.getSettings();
+
     try {
-      const response = await Fetch(`http://${data.settings.ip}/sony/system`, {
+      const response = await Fetch(`http://${settings.ip}/sony/system`, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
-          'X-Auth-PSK': data.settings.psk,
+          'X-Auth-PSK': settings.psk,
           'Content-Type': 'application/json',
           'cache-control': 'no-cache'
         },
@@ -35,18 +37,19 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
 
       return parsedResponse;
     } catch (err) {
-      console.error(`An error occured fetching ${data.name} availability: `, err);
+      console.error(`An error occured fetching availability: `, err);
       throw err;
     }
   }
 
-  async getDevicePowerState(data) {
+  async getDevicePowerState(device) {
+    const settings = device.getSettings();
     try {
-      const response = await Fetch(`http://${data.settings.ip}/sony/system`, {
+      const response = await Fetch(`http://${settings.ip}/sony/system`, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
-          'X-Auth-PSK': data.settings.psk,
+          'X-Auth-PSK': settings.psk,
           'Content-Type': 'application/json',
           'cache-control': 'no-cache'
         },
@@ -66,30 +69,29 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
 
       return parsedResponse.status;
     } catch (err) {
-      console.error(`An error occured fetching ${data.name} power state: `, err);
+      console.error(`An error occured fetching power state: `, err);
       throw err;
     }
   }
 
-  async setDevicePowerState(device, data, state) {
+  async setDevicePowerState(device, state) {
     if (!state) {
-      return await this.sendCommand(device, data, null, 'PowerOff');
+      return await this.sendCommand(device, 'PowerOff');
     }
 
-    return await this.sendCommand(device, data, null, 'PowerOn');
+    return await this.sendCommand(device, 'PowerOn');
   }
 
-  async sendCommand(device, data, action, command) {
-    try {
-      if (action) {
-        new Homey.FlowCardTriggerDevice(action).register().trigger(device, { token: command });
-      }
+  async sendCommand(device, command) {
+    const settings = device.getSettings();
+    console.log(settings);
 
-      const response = await Fetch(`http://${data.settings.ip}/sony/IRCC`, {
+    try {
+      const response = await Fetch(`http://${settings.ip}/sony/IRCC`, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
-          'X-Auth-PSK': data.settings.psk,
+          'X-Auth-PSK': settings.psk,
           'SOAPACTION': '"urn:schemas-sony-com:service:IRCC:1#X_SendIRCC"',
           'cache-control': 'no-cache'
         },
@@ -102,7 +104,7 @@ class SonyBraviaAndroidTVCommunicator extends Homey.SimpleClass {
 
       return response;
     } catch (err) {
-      console.error(`An error occured sending command to ${data.name}: `, err);
+      console.error(`An error occured sending command: `, err);
       throw err;
     }
   }

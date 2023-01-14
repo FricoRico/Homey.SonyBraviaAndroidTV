@@ -1,8 +1,8 @@
 {
   "id": "name.ricardoismy.sonybraviaandroidtv",
   "version": "1.0.4",
-  "compatibility": ">=1.5.0",
-  "sdk": 2,
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
   "name": {
     "en": "Sony BRAVIA Android TV"
   },
@@ -12,22 +12,18 @@
   "category": [
     "video"
   ],
-  "permissions": [
-    "homey:manager:speech-input",
-    "homey:manager:speech-output"
-  ],
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
   },
   "author": {
-    "name": "Ricardo Snoek",
-    "email": "me@ricardoismy.name"
+    "name": "Tapio Heiskanen",
+    "email": "oh2th@iki.fi"
   },
   "contributors": {
     "developers": [
       {
-        "name": "Ricardo Snoek",
+        "name": "Ricardo Snoek (legacy)",
         "email": "me@ricardoismy.name"
       },
       {
@@ -46,7 +42,7 @@
   "contributing": {
     "donate": {
       "paypal": {
-        "username": "ricardosnoek"
+        "username": "oh2th"
       }
     }
   },
@@ -374,6 +370,10 @@
           "en": "Set HDMI input",
           "nl": "Selecteer HDMI ingang"
         },
+        "titleFormatted": {
+          "en": "Set HDMI input to [[Input]]",
+          "nl": "Selecteer HDMI ingang naar [[Input]]"
+        },      
         "args": [
           {
             "name": "Input",
@@ -476,6 +476,10 @@
           "en": "Numpad input",
           "nl": "Numerieke invoer"
         },
+        "titleFormatted": {
+          "en": "Numpad input as [[Number]]",
+          "nl": "Numerieke invoer als [[Number]]"
+        },      
         "args": [
           {
             "name": "device",
