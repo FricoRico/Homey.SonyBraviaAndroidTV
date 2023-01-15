@@ -7,17 +7,16 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
   onInit() {
     this.data = this.generateDeviceObject();
 
-    console.log(`${this.data.name} initialized.`);
+    this.log(`${this.data.name} initialized.`);
 
     this.setCapabilityListeners();
     this.checkDeviceInterval(this.data.settings.polling);
-
   }
 
   onDeleted() {
     this.data = this.generateDeviceObject();
 
-    console.log(`${this.data.name} deleting.`);
+    this.log(`${this.data.name} deleting.`);
 
     this.clearIntervals();
   }
@@ -53,7 +52,7 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
         try {
           return await capability.function(this, value);
         } catch (err) {
-          console.log(`${this.data.name} capability listener could not be executed: `, err);
+          this.log(`${this.data.name} capability listener could not be executed: `, err);
         }
       });
     });

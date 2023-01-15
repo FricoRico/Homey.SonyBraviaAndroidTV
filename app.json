@@ -17,14 +17,14 @@
     "small": "/assets/images/small.png"
   },
   "author": {
-    "name": "Tapio Heiskanen",
-    "email": "oh2th@iki.fi"
+    "name": "Ricardo Snoek",
+    "email": "me@ricardoismy.name"
   },
   "contributors": {
     "developers": [
       {
-        "name": "Ricardo Snoek (legacy)",
-        "email": "me@ricardoismy.name"
+        "name": "Tapio Heiskanen",
+        "email": "oh2th@iki.fi"
       },
       {
         "name": "Jorden Chamid (legacy)",
@@ -42,7 +42,7 @@
   "contributing": {
     "donate": {
       "paypal": {
-        "username": "oh2th"
+        "username": "ricardosnoek"
       }
     }
   },
