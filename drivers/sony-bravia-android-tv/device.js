@@ -1,28 +1,41 @@
 const Homey = require('homey');
 
 const SonyBraviaAndroidTvCommunicator = require('../../helpers/sony-bravia-android-tv-communicator');
-const SonyBraviaFlowActions = require('../../definitions/flow-actions');
 const SonyBraviaCapabilities = require('../../definitions/capabilities');
 
 class SonyBraviaAndroidTvDevice extends Homey.Device {
   onInit() {
     this.data = this.generateDeviceObject();
 
-    console.log(`${this.data.name} initialized.`);
+    this.log(`${this.data.name} initialized.`);
 
-    this.registerTasks();
-    this.registerFlowListeners();
-    this.registerCapabilityListeners();
+    this.setCapabilityListeners();
+    this.checkDeviceInterval(this.data.settings.polling);
   }
 
   onDeleted() {
     this.data = this.generateDeviceObject();
 
-    console.log(`${this.data.name} deleting.`);
+    this.log(`${this.data.name} deleting.`);
 
-    this.unregisterTasks();
+    this.clearIntervals();
   }
 
+    /**
+   * onSettings is called when the user updates the device's settings.
+   * @param {object} event the onSettings event data
+   * @param {object} event.oldSettings The old settings object
+   * @param {object} event.newSettings The new settings object
+   * @param {string[]} event.changedKeys An array of keys changed since the previous version
+   * @returns {Promise<string|void>} return a custom message that will be displayed
+   */
+    async onSettings({ oldSettings, newSettings, changedKeys }) {
+      this.log(`[Device] ${this.getName()}: ${this.getData().id} settings where changed: ${changedKeys}`);
+
+      this.clearIntervals();
+      this.checkDeviceInterval(newSettings.polling);
+    }
+  
   generateDeviceObject() {
     return {
       name: this.getName(),
@@ -33,140 +46,64 @@ class SonyBraviaAndroidTvDevice extends Homey.Device {
     }
   }
 
-  async onSettings(_oldSettings, newSettings, changedKeys, callback) {
-    this.data.settings = newSettings;
-
-    if (changedKeys.indexOf('polling') !== -1) {
-      this.registerTasks();
-    }
-
-    this.clearWarning();
-
-    callback(null, newSettings);
-  }
-
-  async registerTasks() {
-    await this.unregisterTasks();
-
-    const cronTaskName = `SBAT:${this.data.data.cid}`;
-    const cronPollingInterval = `*/${this.data.settings.polling} * * * *`;
-
-    try {
-      const cronTask = await Homey.ManagerCron.registerTask(cronTaskName.toLowerCase(), cronPollingInterval);
-
-      console.log(`${this.data.name} task registerd with name: `, cronTaskName.toLowerCase());
-
-      this.awaitTask(cronTask);
-    } catch (err) {
-      console.error(`${this.data.name} task could not be registered.`, err);
-    }
-  }
-
-  async unregisterTasks() {
-    const cronTaskName = `SBAT:${this.data.data.cid}`;
-
-    try {
-      await Homey.ManagerCron.unregisterTask(cronTaskName.toLowerCase());
-
-      console.log(`${this.data.name} task unregisterd with name: `, cronTaskName.toLowerCase());
-    } catch (_err) { }
-  }
-
-  async registerCapabilityListeners() {
+  async setCapabilityListeners() {
     SonyBraviaCapabilities.forEach(capability => {
       this.registerCapabilityListener(capability.name, async value => {
         try {
-          return await capability.function(this, this.data, value);
+          return await capability.function(this, value);
         } catch (err) {
-          this.showWarning(err);
-
-          console.log(`${this.data.name} capability listener could not be executed: `, err);
+          this.log(`${this.data.name} capability listener could not be executed: `, err);
         }
       });
     });
   }
 
-  registerFlowListeners() {
-    SonyBraviaFlowActions.forEach(flow => {
-      try {
-        const flowCard = new Homey.FlowCardAction(flow.action).register();
-
-        flowCard.registerRunListener(async (args, state) => {
-          try {
-            flow.parsedCommand = flow.command;
-
-            if (flow.command instanceof Function) {
-              flow.parsedCommand = flow.command(args, state)
-            }
-
-            console.log(`${this.data.name} starting flow:  ${flow.action}  and sending command: `, flow.parsedCommand);
-
-            return await SonyBraviaAndroidTvCommunicator.sendCommand(this, this.data, flow.action, flow.parsedCommand);
-          } catch (err) {
-            this.showWarning(err);
-
-            console.log(`${this.data.name} flow command could not be executed: `, flow, err);
-          }
-        });
-      } catch (err) {
-        console.log(`${this.data.name} flow command could not be registered: `, flow, err);
-      }
-    });
+  async checkDeviceInterval(interval) {
+    // Interval settings is in minutes, convert to milliseconds.
+    interval = interval * 1000 * 60;
+    try {
+      this.log(`[Device] ${this.getName()}: ${this.getData().id} onPollInterval =>`, interval);
+      this.onPollInterval = setInterval(this.checkDevice.bind(this), interval);
+    } catch (error) {
+      this.log(error);
+    }
   }
 
-  awaitTask(cronTask) {
-    if (!cronTask) {
-      return;
+  async clearIntervals() {
+    try {
+      this.log(`[Device] ${this.getName()}: ${this.getData().id} clearIntervals`);
+      clearInterval(this.onPollInterval);
+    } catch (error) {
+      this.log(error);
     }
+  }
 
-    cronTask.on('run', () => {
-      const now = new Date().toJSON();
-
-      console.log(`${this.data.name} task executed at time: `, now);
-
-      this.checkDeviceAvailability();
-      this.checkDevicePowerState();
-    });
-
-    console.log(`${this.data.name} awaiting for task execution, every: ${this.data.settings.polling} minute(s).`);
+  async checkDevice() {
+    this.checkDeviceAvailability();
+    this.checkDevicePowerState();
   }
 
   async checkDeviceAvailability() {
     try {
-      await SonyBraviaAndroidTvCommunicator.getDeviceAvailability(this.data);
+      await SonyBraviaAndroidTvCommunicator.getDeviceAvailability(this);
       return this.setAvailable();
     } catch (err) {
-      this.showWarning(err);
-
       return this.setUnavailable();
     }
   }
 
   async checkDevicePowerState() {
     try {
-      const state = await SonyBraviaAndroidTvCommunicator.getDevicePowerState(this.data);
+      const state = await SonyBraviaAndroidTvCommunicator.getDevicePowerState(this);
 
-      console.log(`${this.data.name} current power state: `, state);
+      this.log(`[Device] ${this.getName()}: ${this.getData().id} current power state: `, state);
 
       return this.setCapabilityValue('onoff', state === 'active' ? true : false);
     } catch (err) {
-      this.showWarning(err);
-
       this.setCapabilityValue('onoff', false);
     }
   }
 
-  clearWarning() {
-    return this.setAvailable();
-  }
-
-  showWarning(err) {
-    if (err.code === 403) {
-      return this.setUnavailable(Homey.__('errors.authentication'));
-    }
-
-    return this.setWarning(Homey.__('errors.unknown'));
-  }
 }
 
 module.exports = SonyBraviaAndroidTvDevice;

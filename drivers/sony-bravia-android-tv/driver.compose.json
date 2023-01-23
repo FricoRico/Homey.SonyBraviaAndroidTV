@@ -1,0 +1,99 @@
+{
+  "name": {
+    "en": "Sony BRAVIA Android TV"
+  },
+  "images": {
+    "large": "drivers/sony-bravia-android-tv/assets/images/large.png",
+    "small": "drivers/sony-bravia-android-tv/assets/images/small.png"
+  },
+  "class": "tv",
+  "capabilities": [
+    "onoff",
+    "channel_up",
+    "channel_down",
+    "volume_up",
+    "volume_down",
+    "volume_mute"
+  ],
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "options": {
+        "singular": true
+      },
+      "navigation": {
+        "next": "preshared_key"
+      }
+    },
+    {
+      "id": "preshared_key"
+    },
+    {
+      "id": "instructions"
+    },
+    {
+      "id": "not_found"
+    },
+    {
+      "id": "manual_input"
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "General settings",
+        "nl": "Algemene instellingen"
+      },
+      "children": [
+        {
+          "id": "ip",
+          "type": "text",
+          "label": {
+            "en": "IP address",
+            "nl": "IP adres"
+          },
+          "value": "0.0.0.0"
+        },
+        {
+          "id": "psk",
+          "type": "password",
+          "label": {
+            "en": "Pre-shared key",
+            "nl": "Pre-shared key"
+          },
+          "value": ""
+        },
+        {
+          "id": "polling",
+          "type": "number",
+          "label": {
+            "en": "Device polling interval in minutes",
+            "nl": "Apparaat polling interval in minuten"
+          },
+          "value": 5,
+          "min": 1,
+          "max": 10,
+          "hint": {
+            "en": "Lowering this value improves automation responses when regular remote is used, but also increases load on your Homey.",
+            "nl": "Een lagere waarde zorgt voor een snellere terugkoppeling van de televisie wanneer de afstandbediening wordt gebruikt, maar is zwaarder voor de Homey om te verwerken."
+          }
+        },
+        {
+          "id": "macAddress",
+          "type": "text",
+          "label": {
+            "en": "MAC address",
+            "nl": "MAC adres"
+          },
+          "value": "00:00:00:00:00:00"
+        }
+      ]
+    }
+  ]
+}

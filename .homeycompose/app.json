@@ -1,0 +1,49 @@
+{
+  "id": "name.ricardoismy.sonybraviaandroidtv",
+  "version": "1.0.4",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "name": {
+    "en": "Sony BRAVIA Android TV"
+  },
+  "description": {
+    "en": "Adds support for Sony BRAVIA Android TV's."
+  },
+  "category": [
+    "video"
+  ],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Ricardo Snoek",
+    "email": "me@ricardoismy.name"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Tapio Heiskanen",
+        "email": "oh2th@iki.fi"
+      },
+      {
+        "name": "Jorden Chamid (legacy)",
+        "email": "info@chamidmedia.nl"
+      },
+      {
+        "name": "Marco Frijmann (legacy)",
+        "email": "info@frijmann.nl"
+      }
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/FricoRico/Homey.SonyBraviaAndroidTV/issues"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "ricardosnoek"
+      }
+    }
+  }
+}

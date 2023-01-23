@@ -3,56 +3,56 @@ const SonyBraviaAndroidTvCommunicator = require('../helpers/sony-bravia-android-
 module.exports = [
   {
     name: 'onoff',
-    function: (device, data, value) => {
-      console.log(`${data.name} setting device power state to: `, value ? 'ON' : 'OFF');
+    function: (device, _value) => {
+      console.log(`setting device power state to: `, _value );
 
-      return SonyBraviaAndroidTvCommunicator.setDevicePowerState(device, data, value);
+      return SonyBraviaAndroidTvCommunicator.setDevicePowerState(device, _value);
     }
   },
   {
     name: 'channel_up',
-    function: (device, data, _value) => {
-      console.log(`${data.name} turning channel up.`);
+    function: (device, _value) => {
+      console.log(`turning channel up.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'ChannelUp', 'ChannelUp');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, 'ChannelUp');
     }
   },
   {
     name: 'channel_down',
-    function: (device, data, _value) => {
-      console.log(`${data.name} turning channel down.`);
+    function: (device, _value) => {
+      console.log(`turning channel down.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'ChannelDown', 'ChannelDown');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, 'ChannelDown');
     }
   },
   {
     name: 'volume_up',
-    function: (device, data, _value) => {
-      console.log(`${data.name} turning volume up.`);
+    function: (device, _value) => {
+      console.log(`turning volume up.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'VolumeUp', 'VolumeUp');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, 'VolumeUp');
     }
   },
   {
     name: 'volume_down',
-    function: (device, data, _value) => {
-      console.log(`${data.name} turning volume down.`);
+    function: (device, _value) => {
+      console.log(`turning volume down.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'VolumeDown', 'VolumeDown');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, 'VolumeDown');
     }
   },
   {
     name: 'volume_mute',
-    function: (device, data, value) => {
-      if (value) {
-        console.log(`${data.name} muting the sound.`);
+    function: (device, _value) => {
+      if (_value) {
+        console.log(`muting the sound.`);
 
-        return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'Mute', 'Mute');
+        return SonyBraviaAndroidTvCommunicator.sendCommand(device, 'Mute');
       }
 
-      console.log(`${data.name} unmuting the sound.`);
+      console.log(`unmuting the sound.`);
 
-      return SonyBraviaAndroidTvCommunicator.sendCommand(device, data, 'UnMute', 'UnMute');
+      return SonyBraviaAndroidTvCommunicator.sendCommand(device, 'UnMute');
     }
   }
 ]

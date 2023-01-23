@@ -1,0 +1,292 @@
+{
+  "triggers": [
+    {
+      "id": "ChannelUp",
+      "title": {
+        "en": "Channel up",
+        "nl": "Kanaal omhoog"
+      },
+      "args": []
+    },
+    {
+      "id": "ChannelDown",
+      "title": {
+        "en": "Channel down",
+        "nl": "Kanaal omlaag"
+      },
+      "args": []
+    },
+    {
+      "id": "VolumeUp",
+      "title": {
+        "en": "Volume up",
+        "nl": "Volume omhoog"
+      },
+      "args": []
+    },
+    {
+      "id": "VolumeDown",
+      "title": {
+        "en": "Volume down",
+        "nl": "Volume omlaag"
+      },
+      "args": []
+    },
+    {
+      "id": "Mute",
+      "title": {
+        "en": "Muted",
+        "nl": "Geluid ingeschakelt"
+      },
+      "args": []
+    },
+    {
+      "id": "UnMute",
+      "title": {
+        "en": "Unmuted",
+        "nl": "Geluid uitgeschakelt"
+      },
+      "args": []
+    },
+    {
+      "id": "Netflix",
+      "title": {
+        "en": "Netflix started",
+        "nl": "Netflix geopend"
+      },
+      "args": []
+    },
+    {
+      "id": "SetInput",
+      "title": {
+        "en": "HDMI input changed",
+        "nl": "HDMI ingang gewijzigd"
+      },
+      "args": [],
+      "tokens": [
+        {
+          "name": "token",
+          "type": "string",
+          "title": {
+            "en": "Selected input",
+            "nl": "Geselecteerde ingang"
+          },
+          "example": {
+            "en": "Hdmi1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "SetNumber",
+      "title": {
+        "en": "Numpad input received",
+        "nl": "Numerieke invoer ontvangen"
+      },
+      "args": [],
+      "tokens": [
+        {
+          "name": "token",
+          "type": "string",
+          "title": {
+            "en": "Selected digit",
+            "nl": "Geselecteerde nummer"
+          },
+          "example": {
+            "en": "Num0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Options",
+      "title": {
+        "en": "Options opened",
+        "nl": "Opties geopend"
+      },
+      "args": []
+    },
+    {
+      "id": "EPG",
+      "title": {
+        "en": "Electronic Program Guide opened",
+        "nl": "Electronic Program Guide geopend"
+      },
+      "args": []
+    },
+    {
+      "id": "Enter",
+      "title": {
+        "en": "Enter command received",
+        "nl": "Enter commando ontvangen"
+      },
+      "args": []
+    }
+  ],
+  "actions": [
+    {
+      "id": "Netflix",
+      "title": {
+        "en": "Start Netflix",
+        "nl": "Open Netflix"
+      },
+      "args": []
+    },
+    {
+      "id": "SetInput",
+      "title": {
+        "en": "Set HDMI input",
+        "nl": "Selecteer HDMI ingang"
+      },
+      "titleFormatted": {
+        "en": "Set HDMI input to [[Input]]",
+        "nl": "Selecteer HDMI ingang naar [[Input]]"
+      },
+      "args": [
+        {
+          "name": "Input",
+          "type": "dropdown",
+          "values": [
+            {
+              "id": "Hdmi1",
+              "label": {
+                "en": "HDMI 1"
+              }
+            },
+            {
+              "id": "Hdmi2",
+              "label": {
+                "en": "HDMI 2"
+              }
+            },
+            {
+              "id": "Hdmi3",
+              "label": {
+                "en": "HDMI 3"
+              }
+            },
+            {
+              "id": "Hdmi4",
+              "label": {
+                "en": "HDMI 4"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Options",
+      "title": {
+        "en": "Open Options",
+        "nl": "Opties openen"
+      },
+      "args": []
+    },
+    {
+      "id": "EPG",
+      "title": {
+        "en": "Open Electronic Program Guide",
+        "nl": "Elektronische Programma Gids openen"
+      },
+      "args": []
+    },
+    {
+      "id": "Enter",
+      "title": {
+        "en": "Send Enter command",
+        "nl": "Enter commando versturen"
+      },
+      "args": []
+    },
+    {
+      "id": "SetNumber",
+      "title": {
+        "en": "Numpad input",
+        "nl": "Numerieke invoer"
+      },
+      "titleFormatted": {
+        "en": "Numpad input as [[Number]]",
+        "nl": "Numerieke invoer als [[Number]]"
+      },
+      "args": [
+        {
+          "name": "Number",
+          "type": "dropdown",
+          "values": [
+            {
+              "id": "Num1",
+              "label": {
+                "en": "Numpad 1",
+                "nl": "Nummer 1"
+              }
+            },
+            {
+              "id": "Num2",
+              "label": {
+                "en": "Numpad 2",
+                "nl": "Nummer 2"
+              }
+            },
+            {
+              "id": "Num3",
+              "label": {
+                "en": "Numpad 3",
+                "nl": "Nummer 3"
+              }
+            },
+            {
+              "id": "Num4",
+              "label": {
+                "en": "Numpad 4",
+                "nl": "Nummer 4"
+              }
+            },
+            {
+              "id": "Num5",
+              "label": {
+                "en": "Numpad 5",
+                "nl": "Nummer 5"
+              }
+            },
+            {
+              "id": "Num6",
+              "label": {
+                "en": "Numpad 6",
+                "nl": "Nummer 6"
+              }
+            },
+            {
+              "id": "Num7",
+              "label": {
+                "en": "Numpad 7",
+                "nl": "Nummer 7"
+              }
+            },
+            {
+              "id": "Num8",
+              "label": {
+                "en": "Numpad 8",
+                "nl": "Nummer 8"
+              }
+            },
+            {
+              "id": "Num9",
+              "label": {
+                "en": "Numpad 9",
+                "nl": "Nummer 9"
+              }
+            },
+            {
+              "id": "Num0",
+              "label": {
+                "en": "Numpad 0",
+                "nl": "Nummer 0"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

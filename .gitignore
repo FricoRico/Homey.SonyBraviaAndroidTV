@@ -56,17 +56,29 @@ typings/
 # next.js build output
 .next
 
-# NPM dependency directory
-node_modules/*
+# Executables
+*.exe
+*.out
+*.app
 
-# NPM dependancies that are required for Homey
-!node_modules/async/
-!node_modules/bluebird/
-!node_modules/debug/
-!node_modules/deepmerge/
-!node_modules/extend/
-!node_modules/ip/
-!node_modules/lodash/
-!node_modules/ms/
-!node_modules/node-fetch/
-!node_modules/node-ssdp/
+# OS System files
+.DS_Store
+Thumbs.db
+
+# GIT configurations
+.gitattributes
+
+# VScode
+.vscode/
+
+# snyk
+.dccache
+
+# Homey exclude
+/app.json
+/env.json
+/node_modules/
+/.homeybuild/
+package-lock.json
+tsconfig.json
+transalation.txt
